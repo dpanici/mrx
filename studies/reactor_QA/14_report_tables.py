@@ -87,7 +87,8 @@ def delbsq(tag):
 
 for tag, lab in [("desc_free_L12_M12_N12", "DESC free (12,12,12)"), ("vmec_free_m9_n8_ns51", "VMEC++ free 9/8, ns 51"),
                  ("vmec_free_m9_n8_ns101", "VMEC++ free 9/8, ns 101"), ("vmec_free_m9_n8_ns101_vac64", "VMEC++ free 9/8, ns 101, fine vacuum"),
-                 ("vmec_free_m9_n8_ns201_vac64", "VMEC++ free 9/8, ns 201, fine vacuum"), ("vmec_free_m9_n8_ns401_vac64", "VMEC++ free 9/8, ns 401, fine vacuum"), ("vmec_free_m13_n12_ns101", "VMEC++ free 13/12, ns 101")]:
+                 ("vmec_free_m9_n8_ns201_vac64", "VMEC++ free 9/8, ns 201, fine vacuum"), ("vmec_free_m9_n8_ns401_vac64", "VMEC++ free 9/8, ns 401, fine vacuum"), ("vmec_free_m13_n12_ns101", "VMEC++ free 13/12, ns 101"),
+                 ("vmec_free_m13_n12_ns201_vac64", "VMEC++ free 13/12, ns 201, fine vacuum (crinkled, see below)")]:
     if not os.path.exists("c08/%s.pkl" % tag):
         continue
     r = L("c08/" + tag); code = "desc" if tag.startswith("desc") else "vmec"

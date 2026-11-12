@@ -117,6 +117,15 @@ for i, (pl, t) in enumerate([(0, "φ = 0"), (1, "φ = quarter field period"), (2
 fig.legend(*ax[0].get_legend_handles_labels(), loc="outside lower center", ncol=3, fontsize=8.5)
 fig.savefig("report/c08_free.png", dpi=130)
 
+if os.path.exists("c08/vmec_free_m13_n12_ns201_vac64.pkl"):
+    fv13 = c("vmec_free_m13_n12_ns201_vac64")
+    fig, ax = plt.subplots(1, 3, figsize=(15, 5.2), constrained_layout=True)
+    for i, (pl, t) in enumerate([(0, "φ = 0"), (1, "φ = quarter field period"), (2, "φ = half field period")]):
+        surf_panel(ax[i], [("DESC free (12,12,12)", dfree, BLUE[3], "-"), ("VMEC++ free 13/12, ns 101, coarse vacuum", f13, ORNG[2], "--"),
+                           ("VMEC++ free 13/12, ns 201, fine vacuum", fv13, ORNG[4], "-")], pl, "Flux surfaces, " + t)
+    fig.legend(*ax[0].get_legend_handles_labels(), loc="outside lower center", ncol=3, fontsize=8.5)
+    fig.savefig("report/c08_free_vac64_m13.png", dpi=130)
+
 
 def vmec_spec(path):
     w = Dataset(path); w.set_auto_mask(False); xm = w["xm"][:]; a = np.hypot(w["rmnc"][-1], w["zmns"][-1])
@@ -136,6 +145,8 @@ spec = [("fixed boundary", vmec_spec("c08/wout_vmec_fixed_m13_n12_ns101.nc"), "#
         ("VMEC++ free 13/12, ns 101", vmec_spec("c08/wout_vmec_free_m13_n12_ns101.nc"), ORNG[3], "--", "s")]
 if os.path.exists("c08/wout_vmec_free_m9_n8_ns401_vac64.nc"):
     spec.insert(3, ("VMEC++ free 9/8, ns 401, fine vacuum", vmec_spec("c08/wout_vmec_free_m9_n8_ns401_vac64.nc"), ORNG[2], "--", "^"))
+if os.path.exists("c08/wout_vmec_free_m13_n12_ns201_vac64.nc"):
+    spec.append(("VMEC++ free 13/12, ns 201, fine vacuum", vmec_spec("c08/wout_vmec_free_m13_n12_ns201_vac64.nc"), ORNG[4], ":", "v"))
 fig, ax = plt.subplots(1, 2, figsize=(14, 4.4), constrained_layout=True)
 for lab, (m, a), col, ls, mk in spec:
     ax[0].semilogy(m, np.maximum(a, 1e-9), color=col, ls=ls, marker=mk, ms=4, lw=1.4, label=lab)
@@ -145,7 +156,7 @@ V = json.load(open("c08/vc_residuals.json"))
 rows = [(k, lab) for k, lab in [("desc_fixed_L12_M12_N12_jacobi", "DESC fixed 12³"), ("desc_free_L12_M12_N12", "DESC free 12³"),
                                 ("vmec_fixed_m13_n12_ns101", "VMEC++ fixed 13/12"), ("vmec_free_m9_n8_ns101", "VMEC++ free 9/8 ns101"),
                                 ("vmec_free_m9_n8_ns101_vac64", "… fine vacuum"), ("vmec_free_m9_n8_ns201_vac64", "… ns 201, fine vac."), ("vmec_free_m9_n8_ns401_vac64", "… ns 401, fine vac."),
-                                ("vmec_free_m13_n12_ns101", "VMEC++ free 13/12")] if k in V]
+                                ("vmec_free_m13_n12_ns101", "VMEC++ free 13/12"), ("vmec_free_m13_n12_ns201_vac64", "… ns 201, fine vac.")] if k in V]
 x = np.arange(len(rows))
 bn = [V[k]["48"]["rms_Bn"] for k, _ in rows]; pp = [V[k]["48"]["rms_P"] for k, _ in rows]
 cols = [BLUE[3] if k.startswith("desc") else ORNG[3] for k, _ in rows]

@@ -72,8 +72,11 @@ c = {r["tag"]: r for r in T["c08"]}
 o = {r["tag"]: r for r in T["orig"]}
 best_desc = c.get("desc_fixed_L20_M16_N16_jacobi") or c["desc_fixed_L20_M12_N12_jacobi"]
 fd = [r for r in T["free"] if r["code"] == "desc"][0]
-fvs = [r for r in T["free"] if r["code"] == "vmec"]
+fvall = [r for r in T["free"] if r["code"] == "vmec"]
+fbad = [r for r in fvall if (r["rms_Bn"] or 0) > 2e-3]          # VMEC++ 13/12 fine vacuum: crinkled, not an equilibrium
+fvs = [r for r in fvall if r not in fbad]
 fv = min(fvs, key=lambda r: r["lcfs_desc"])
+fb = fbad[0] if fbad else None
 fr0 = T["free_ref"]
 html = f"""<title>reactor_QA Equilibrium Comparison</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -162,7 +165,8 @@ dl.files dt {{ font-family: var(--mono); overflow-wrap: anywhere; }} dl.files dd
     near ι = 3/5, but much less once MRX resolves them (43 → 15 chaotic lines at 16×32×32).</p></div>
   <div class="finding"><b>Free boundary: DESC is converged, VMEC++ is not yet</b>
     <p>DESC (12,12,12) moves the boundary {fd['lcfs']:.0f} mm and cuts the free-boundary residual to {fd['rms_Bn']:.0e} (B·n) and {fd['rms_P']:.0e} (pressure), independent of quadrature.
-    VMEC++ stalls about 5× higher and its boundary drifts {fv['lcfs']:.0f}–{max(r['lcfs'] for r in fvs):.0f} mm, and converges in ns (ns 201 → 401: 6 mm) to a boundary {fv['lcfs_desc']:.0f} mm from DESC's.</p></div>
+    VMEC++ stalls about 5× higher and its boundary drifts {fv['lcfs']:.0f}–{max(r['lcfs'] for r in fvs):.0f} mm, and converges in ns (ns 201 → 401: 6 mm) to a boundary {fv['lcfs_desc']:.0f} mm from DESC's.
+    At 13/12 with the fine vacuum grid it wanders off to a crinkled boundary ({fb['lcfs_desc']/1e3:.1f} m from DESC's) with a residual of {fb['rms_Bn']:.0e}.</p></div>
 </section>
 
 <h2>Setup</h2>
@@ -257,7 +261,16 @@ so a 3–5×10⁻⁴ floor leaves the VMEC++ boundary free to drift about 0.1 m.
 and bring the boundary closer to DESC's; ns = 401 moves the boundary only 6 mm further and leaves the residual at 3×10⁻⁴, so at 9/8 VMEC++ is converged in ns
 at a boundary {fv['lcfs_desc']:.0f} mm from DESC's. mpol 13 (coarse vacuum) does not lower the floor. Both codes' free boundaries pick up 1–20 mm of m = 5–10 shaping that the fixed
 boundary lacks (the coil current potential runs to M = N = 10); VMEC++ keeps 1–3 mm up to m = 12, where DESC's falls off (left panel below).</p>
-<figure><div class="plate"><img src="c08_free_diag.png" alt="Left: boundary Fourier amplitude per poloidal mode number; the fixed boundary decays to 1e-6 by m = 8, both free boundaries keep 1e-3 to 1e-2 up to m = 10, and only VMEC++ stays near 1e-3 at m = 11 and 12. Right: rms free-boundary residuals per run; DESC free is lowest, VMEC++ free runs are 3 to 8 times higher."></div>
+<p>Raising VMEC++ to 13/12 with the fine vacuum grid does not help; it fails. At ns = 101 the run passes close to the 13/12 coarse-vacuum boundary
+(DELBSQ 5×10⁻⁴ after 1 250 iterations), but its force residual then stalls near 10⁻¹⁰ instead of reaching 10⁻¹¹. Over the next 17 000 iterations
+the boundary drifts along the soft directions of the free-boundary problem: DELBSQ rises to 3.7×10⁻³ and the spectral width ⟨M⟩ jumps from 1.8 to 3.9.
+It then converges (fsq 10⁻¹¹ at ns = 101 and 201, 2.7 h) to the boundary below, with m = 2–5 lobes {fb['lcfs_desc']/1e3:.1f} m from DESC's and
+m = 2–5 amplitudes 2–6× larger. Its volume differs by only 0.6 % and ι(1) by 0.04, so the volume-integrated scalars do not show the failure. Both VMEC++'s
+own DELBSQ ({fb['delbsq']:.1e}) and the independent residual ({fb['rms_Bn']:.1e} B·n, {fb['rms_P']:.1e} pressure, about 50× and 20× those of the fixed boundary) say it is not a
+free-boundary equilibrium. The same grid at 9/8 converges normally, so the failure comes with the extra boundary modes, not the vacuum solve itself.</p>
+<figure><div class="plate"><img src="c08_free_vac64_m13.png" alt="Flux surfaces in three planes: DESC free and VMEC++ 13/12 coarse vacuum nearly coincide; VMEC++ 13/12 with the fine vacuum grid has a strongly lobed boundary deviating by up to about one metre."></div>
+<figcaption class="cap">VMEC++ 13/12 free boundary: coarse vacuum grid, ns = 101 (orange, dashed) vs fine vacuum grid, ns = 201 (dark, solid); DESC free (12,12,12) in blue.</figcaption></figure>
+<figure><div class="plate"><img src="c08_free_diag.png" alt="Left: boundary Fourier amplitude per poloidal mode number; the fixed boundary decays to 1e-6 by m = 8, both free boundaries keep 1e-3 to 1e-2 up to m = 10, and only VMEC++ stays near 1e-3 at m = 11 and 12. Right: rms free-boundary residuals per run; DESC free is lowest, VMEC++ free runs are 3 to 8 times higher, except VMEC++ 13/12 with the fine vacuum grid, about 70 times higher."></div>
 <figcaption class="cap">Left: largest boundary Fourier amplitude per poloidal mode number. Right: rms free-boundary residuals, computed the same way for every run (see the table note).</figcaption></figure>
 
 <h2>Status</h2>
@@ -265,7 +278,7 @@ boundary lacks (the coil current potential runs to M = N = 10); VMEC++ keeps 1�
   <span class="chip ok">done</span><span>Fixed-boundary ladders for both cases, MRX on every fixed-boundary result, MRX resolution check.</span>
   <span class="chip warn">limit</span><span>DESC beyond (16,16,16) / (20,12,12) does not fit in this container's 15 GB; (20,16,16) was killed for memory.</span>
   <span class="chip ok">done</span><span>DESC free boundary (12,12,12) for the scaled case: 4.8 h, 9.4 GB peak (needs <code>desc.config["avail_mem"]</code> capped at 6 GB).</span>
-  <span class="chip warn">open</span><span>VMEC++ free boundary at 9/8 (ns 51–401) and 13/12 (ns 101) is still {fv['lcfs_desc']:.0f}–{max(r['lcfs_desc'] for r in fvs):.0f} mm from DESC; at 9/8 it is converged in ns with a residual floor of 3×10⁻⁴. DESC free beyond (12,12,12) does not fit in 15 GB.</span>
+  <span class="chip warn">open</span><span>VMEC++ free boundary at 9/8 (ns 51–401) and 13/12 (ns 101) is still {fv['lcfs_desc']:.0f}–{max(r['lcfs_desc'] for r in fvs):.0f} mm from DESC; at 9/8 it is converged in ns with a residual floor of 3×10⁻⁴. At 13/12 with the fine vacuum grid it drifts to a crinkled, non-equilibrium boundary. DESC free beyond (12,12,12) does not fit in 15 GB.</span>
 </div>
 
 <h2>Files</h2>
