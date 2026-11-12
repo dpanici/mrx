@@ -1,0 +1,80 @@
+Computing data
+Saving parameters
+Saving R
+Saving Z
+Saving lambda
+Saving Jacobian
+Saving |B|
+Saving B^theta
+Saving B^zeta
+Saving B_psi
+Saving B_theta
+Saving B_zeta
+Saving J^theta*sqrt(g)
+Saving J^zeta*sqrt(g)
+Traceback (most recent call last):
+  File "/home/user/mrx/reactor_QA_study/c08/16_desc_to_wout.py", line 8, in <module>
+    r = vmec_eval(vmecpp.VmecWOut.from_wout_file(sys.argv[2]))
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/user/venv/lib/python3.13/site-packages/vmecpp/__init__.py", line 2086, in from_wout_file
+    return VmecWOut.model_validate(attrs, by_alias=True)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/venv/lib/python3.13/site-packages/pydantic/main.py", line 792, in model_validate
+    return cls.__pydantic_validator__.validate_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        obj,
+        ^^^^
+    ...<5 lines>...
+        by_name=by_name,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.ValidationError: 16 validation errors for VmecWOut
+IonLarmor
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+fsqr
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+fsqz
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+fsql
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+ftolv
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+equif
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+am_aux_s
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+am_aux_f
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+ac_aux_s
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+ac_aux_f
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+ai_aux_s
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+ai_aux_f
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+extcur
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+specw
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+over_r
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing
+niter
+  Field required [type=missing, input_value={'version_': array(9.), '...      shape=(545, 201))}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.14/v/missing

@@ -1,0 +1,8 @@
+[env] mrx from /home/user/mrx/mrx/__init__.py  precision float64  batch 32768
+[geom] desc_fixed_L16_M16_N16_jacobi.h5: nfp=2, det DPhi in [7.760e+01, 6.726e+02], symmetry stellarator (map projected, defect 3.6e-15, half-period quadrature)
+[geom] sequence (16, 32, 32) p=2 built in 215 s
+[nullspace] odd k=2 dbc: v^T L v / v^T M v = 1.25e-17
+[nullspace] odd k=1 free: v^T L v / v^T M v = 6.31e-16
+[nullspace] even k=3 dbc: v^T L v / v^T M v = 6.61e-15
+[nullspace] even k=0 free: v^T L v / v^T M v = 1.58e-31
+[setup] desc_fixed_L16_M16_N16_jacobi.h5 resolution (16, 32, 32) degree 2 tol=1.0e-08  n2_dbc=20998  operators+nullspaces 225.7s

@@ -1,0 +1,40 @@
+boundary-error grid M = N = 24
+Building objective: Boundary error
+Precomputing transforms
+Timer: Precomputing transforms = 293 ms
+Timer: Objective build = 4.57 sec
+Building objective: force
+Precomputing transforms
+Timer: Precomputing transforms = 1.55 sec
+Timer: Objective build = 1.64 sec
+Timer: Objective build = 2.29 ms
+Timer: Eq Update LinearConstraintProjection build = 5.68 sec
+Timer: Proximal projection build = 13.9 min
+Building objective: fixed current
+Building objective: fixed pressure
+Building objective: fixed Psi
+Timer: Objective build = 1.20 sec
+Timer: LinearConstraintProjection build = 1.65 sec
+Number of parameters: 625
+Number of objectives: 4802
+Timer: Initializing the optimization = 13.9 min
+
+Starting optimization
+Using method: proximal-lsq-exact
+Solver options:
+------------------------------------------------------------
+Maximum Function Evaluations       : 151
+Maximum Allowed Total Δx Norm      : inf
+Scaled Termination                 : True
+Trust Region Method                : qr
+Initial Trust Radius               : 5.452e+00
+Maximum Trust Radius               : inf
+Minimum Trust Radius               : 2.220e-16
+Trust Radius Increase Ratio        : 2.000e+00
+Trust Radius Decrease Ratio        : 2.500e-01
+Trust Radius Increase Threshold    : 7.500e-01
+Trust Radius Decrease Threshold    : 2.500e-01
+------------------------------------------------------------ 
+
+   Iteration     Total nfev        Cost      Cost reduction    Step norm     Optimality   
+       0              1          1.726e-04                                    5.218e-03   

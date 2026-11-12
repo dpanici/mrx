@@ -1,0 +1,49 @@
+21:54:20 START bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns51.nc vmec_m9_ns51 "12 16 16" 20
+22:00:01 END(0) bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns51.nc vmec_m9_ns51 "12 16 16" 20
+22:00:01 START bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns101.nc vmec_m9_ns101 "12 16 16" 20
+22:05:32 END(0) bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns101.nc vmec_m9_ns101 "12 16 16" 20
+22:05:32 START bash 08_mrx_run.sh wout_vmec_fixed_m13_n12_ns101.nc vmec_m13_ns101 "12 16 16" 20
+22:10:53 END(0) bash 08_mrx_run.sh wout_vmec_fixed_m13_n12_ns101.nc vmec_m13_ns101 "12 16 16" 20
+22:10:53 START bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns201.nc vmec_m9_ns201 "12 16 16" 20
+22:16:27 END(0) bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns201.nc vmec_m9_ns201 "12 16 16" 20
+22:16:27 START bash 08_mrx_run.sh wout_vmec_fixed_m13_n12_ns201.nc vmec_m13_ns201 "12 16 16" 20
+22:21:59 END(0) bash 08_mrx_run.sh wout_vmec_fixed_m13_n12_ns201.nc vmec_m13_ns201 "12 16 16" 20
+22:21:59 START bash 08_mrx_run.sh wout_vmec_fixed_m17_n16_ns201.nc vmec_m17_ns201 "12 16 16" 20
+22:27:30 END(0) bash 08_mrx_run.sh wout_vmec_fixed_m17_n16_ns201.nc vmec_m17_ns201 "12 16 16" 20
+22:27:30 START bash 08_mrx_run.sh wout_vmec_fixed_m21_n20_ns201.nc vmec_m21_ns201 "12 16 16" 20
+22:32:55 END(0) bash 08_mrx_run.sh wout_vmec_fixed_m21_n20_ns201.nc vmec_m21_ns201 "12 16 16" 20
+22:32:55 START bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns401.nc vmec_m9_ns401 "12 16 16" 20
+22:38:18 END(0) bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns401.nc vmec_m9_ns401 "12 16 16" 20
+22:38:18 START bash 08_mrx_run.sh desc_fixed_L8_M8_N8_jacobi-dna.h5 desc_L8_jacobi-dna "12 16 16" 20
+22:43:26 END(0) bash 08_mrx_run.sh desc_fixed_L8_M8_N8_jacobi-dna.h5 desc_L8_jacobi-dna "12 16 16" 20
+22:43:26 START bash 08_mrx_run.sh desc_fixed_L16_M16_N16_jacobi.h5 desc_L16_jacobi "12 16 16" 20
+22:48:54 END(0) bash 08_mrx_run.sh desc_fixed_L16_M16_N16_jacobi.h5 desc_L16_jacobi "12 16 16" 20
+22:48:54 START bash 08_mrx_run.sh desc_fromvmec_L12_M12_N12.h5 desc_fromvmec_L12 "12 16 16" 20
+22:54:01 END(0) bash 08_mrx_run.sh desc_fromvmec_L12_M12_N12.h5 desc_fromvmec_L12 "12 16 16" 20
+22:54:01 START MAXITER=40 python -u 05_desc_fixed.py 20 12 12 jacobi desc_fromvmec_L12_M12_N12.h5 > desc_fixed_20_12_12_jacobi.log 2>&1
+23:56:23 END(0) MAXITER=40 python -u 05_desc_fixed.py 20 12 12 jacobi desc_fromvmec_L12_M12_N12.h5 > desc_fixed_20_12_12_jacobi.log 2>&1
+23:56:23 START bash 08_mrx_run.sh wout_vmec_fixed_m21_n20_ns201.nc vmec_m21_ns201_r32 "16 32 32" 20
+00:19:52 END(0) bash 08_mrx_run.sh wout_vmec_fixed_m21_n20_ns201.nc vmec_m21_ns201_r32 "16 32 32" 20
+00:19:52 START bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns201.nc vmec_m9_ns201_r32 "16 32 32" 20
+00:39:28 END(0) bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns201.nc vmec_m9_ns201_r32 "16 32 32" 20
+00:39:28 START bash 08_mrx_run.sh desc_fixed_L16_M16_N16_jacobi.h5 desc_L16_jacobi_r32 "16 32 32" 20
+00:43:21 END(1) bash 08_mrx_run.sh desc_fixed_L16_M16_N16_jacobi.h5 desc_L16_jacobi_r32 "16 32 32" 20
+00:43:21 START MAXITER=25 python -u 05_desc_fixed.py 20 16 16 jacobi desc_fixed_L20_M12_N12_jacobi.h5 > desc_fixed_20_16_16_jacobi.log 2>&1
+00:48:26 END(137) MAXITER=25 python -u 05_desc_fixed.py 20 16 16 jacobi desc_fixed_L20_M12_N12_jacobi.h5 > desc_fixed_20_16_16_jacobi.log 2>&1
+00:48:26 START MAXBATCH=32768 bash 08_mrx_run.sh desc_fixed_L16_M16_N16_jacobi.h5 desc_L16_jacobi_r32 "16 32 32" 20
+00:52:23 END(1) MAXBATCH=32768 bash 08_mrx_run.sh desc_fixed_L16_M16_N16_jacobi.h5 desc_L16_jacobi_r32 "16 32 32" 20
+00:52:43 queue empty
+00:58:33 START python -u 16_desc_to_wout.py desc_fixed_L16_M16_N16_jacobi.h5 wout_desc_fixed_L16_M16_N16.nc > desc_to_wout_16.log 2>&1
+00:59:41 END(1) python -u 16_desc_to_wout.py desc_fixed_L16_M16_N16_jacobi.h5 wout_desc_fixed_L16_M16_N16.nc > desc_to_wout_16.log 2>&1
+00:59:41 START bash 08_mrx_run.sh wout_desc_fixed_L16_M16_N16.nc desc_L16_jacobi_wout_r32 "16 32 32" 20
+01:17:19 END(0) bash 08_mrx_run.sh wout_desc_fixed_L16_M16_N16.nc desc_L16_jacobi_wout_r32 "16 32 32" 20
+01:17:39 queue empty
+01:18:17 START python -u 02_coil_field.py > coil_field.log 2>&1
+01:20:46 END(0) python -u 02_coil_field.py > coil_field.log 2>&1
+01:20:46 START FTOL=1e-11 python -u 03_vmec.py free 9 8 51 > vmec_free_m9_n8_ns51.log 2>&1
+01:27:34 END(0) FTOL=1e-11 python -u 03_vmec.py free 9 8 51 > vmec_free_m9_n8_ns51.log 2>&1
+01:27:34 START FTOL=1e-11 python -u 03_vmec.py free 9 8 101 > vmec_free_m9_n8_ns101.log 2>&1
+01:33:51 END(0) FTOL=1e-11 python -u 03_vmec.py free 9 8 101 > vmec_free_m9_n8_ns101.log 2>&1
+01:33:51 START FTOL=1e-11 python -u 03_vmec.py free 13 12 101 > vmec_free_m13_n12_ns101.log 2>&1
+01:51:09 END(0) FTOL=1e-11 python -u 03_vmec.py free 13 12 101 > vmec_free_m13_n12_ns101.log 2>&1
+01:51:29 queue empty

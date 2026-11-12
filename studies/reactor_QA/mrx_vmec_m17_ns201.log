@@ -1,0 +1,23 @@
+[env] mrx from /home/user/mrx/mrx/__init__.py  precision float64  batch 262144
+[geom] wout_vmec_fixed_m17_n16_ns201.nc: nfp=2 (theta reversed, the file is left-handed), det DPhi in [3.184e+01, 1.449e+03], symmetry stellarator (map projected, defect 3.6e-15, half-period quadrature)
+Traceback (most recent call last):
+  File "/home/user/mrx/scripts/relax.py", line 132, in <module>
+    main(tyro.cli(RelaxConfig, description=__doc__))
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/mrx/scripts/relax.py", line 53, in main
+    seq = g.build()
+  File "/home/user/mrx/mrx/relaxation/config.py", line 83, in build
+    return build_sequence(self.path, self.resolution, self.spline_degree, self.solve_maxiter,
+                          tol=self.solve_tol, knots=self.knots, symmetry=str(self.symmetry), graded=self.graded,
+                          map_theta=self.map_theta)
+  File "/home/user/mrx/mrx/geometry.py", line 137, in build_sequence
+    seq.set_geometry_from_map(Phi)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/home/user/mrx/mrx/derham_sequence.py", line 368, in set_geometry_from_map
+    self.set_geometry(SequenceGeometry.from_map(Phi, self.quad.x), keep_preconditioners)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/mrx/mrx/derham_sequence.py", line 383, in set_geometry
+    raise ValueError(
+        f"the map folds: det DPhi at the quadrature points spans "
+        f"[{jac.min():.3e}, {jac.max():.3e}] and must be positive")
+ValueError: the map folds: det DPhi at the quadrature points spans [-1.084e+02, 1.947e+03] and must be positive

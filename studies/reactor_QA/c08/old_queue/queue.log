@@ -1,0 +1,41 @@
+15:40:39 START python -u 10_make_case.py > make_case.log 2>&1
+15:44:39 END(0) python -u 10_make_case.py > make_case.log 2>&1
+15:44:39 START python -u 03_vmec.py fixed 9 8 51 > vmec_fixed_m9_n8_ns51.log 2>&1
+15:44:44 END(0) python -u 03_vmec.py fixed 9 8 51 > vmec_fixed_m9_n8_ns51.log 2>&1
+15:44:44 START python -u 03_vmec.py fixed 9 8 101 > vmec_fixed_m9_n8_ns101.log 2>&1
+15:44:56 END(0) python -u 03_vmec.py fixed 9 8 101 > vmec_fixed_m9_n8_ns101.log 2>&1
+15:44:56 START python -u 03_vmec.py fixed 13 12 101 > vmec_fixed_m13_n12_ns101.log 2>&1
+15:45:37 END(0) python -u 03_vmec.py fixed 13 12 101 > vmec_fixed_m13_n12_ns101.log 2>&1
+15:45:37 START python -u 03_vmec.py fixed 9 8 201 > vmec_fixed_m9_n8_ns201.log 2>&1
+15:46:15 END(0) python -u 03_vmec.py fixed 9 8 201 > vmec_fixed_m9_n8_ns201.log 2>&1
+15:46:15 START FTOL=1e-12 python -u 03_vmec.py fixed 17 16 201 > vmec_fixed_m17_n16_ns201.log 2>&1
+15:51:30 END(0) FTOL=1e-12 python -u 03_vmec.py fixed 17 16 201 > vmec_fixed_m17_n16_ns201.log 2>&1
+15:51:30 START MAXITER=60 python -u 05_desc_fixed.py 8 8 8 jacobi reactor_QA_c08.h5 > desc_fixed_8_8_8_jacobi.log 2>&1
+15:53:33 END(0) MAXITER=60 python -u 05_desc_fixed.py 8 8 8 jacobi reactor_QA_c08.h5 > desc_fixed_8_8_8_jacobi.log 2>&1
+15:53:33 START MAXITER=60 python -u 05_desc_fixed.py 8 8 8 jacobi-dna reactor_QA_c08.h5 > desc_fixed_8_8_8_jacobi-dna.log 2>&1
+15:54:08 END(0) MAXITER=60 python -u 05_desc_fixed.py 8 8 8 jacobi-dna reactor_QA_c08.h5 > desc_fixed_8_8_8_jacobi-dna.log 2>&1
+15:54:08 START MAXITER=50 python -u 05_desc_fixed.py 12 12 12 jacobi desc_fixed_L8_M8_N8_jacobi.h5 > desc_fixed_12_12_12_jacobi.log 2>&1
+16:11:44 END(0) MAXITER=50 python -u 05_desc_fixed.py 12 12 12 jacobi desc_fixed_L8_M8_N8_jacobi.h5 > desc_fixed_12_12_12_jacobi.log 2>&1
+16:11:44 START MAXITER=50 python -u 05_desc_fixed.py 12 12 12 jacobi-dna desc_fixed_L8_M8_N8_jacobi-dna.h5 > desc_fixed_12_12_12_jacobi-dna.log 2>&1
+16:28:46 END(0) MAXITER=50 python -u 05_desc_fixed.py 12 12 12 jacobi-dna desc_fixed_L8_M8_N8_jacobi-dna.h5 > desc_fixed_12_12_12_jacobi-dna.log 2>&1
+16:28:46 START python -u 03_vmec.py fixed 9 8 401 > vmec_fixed_m9_n8_ns401.log 2>&1
+16:31:17 END(0) python -u 03_vmec.py fixed 9 8 401 > vmec_fixed_m9_n8_ns401.log 2>&1
+16:31:17 START python -u 03_vmec.py fixed 13 12 201 > vmec_fixed_m13_n12_ns201.log 2>&1
+16:33:29 END(0) python -u 03_vmec.py fixed 13 12 201 > vmec_fixed_m13_n12_ns201.log 2>&1
+16:33:29 START FTOL=1e-12 python -u 03_vmec.py fixed 21 20 201 > vmec_fixed_m21_n20_ns201.log 2>&1
+16:43:33 END(0) FTOL=1e-12 python -u 03_vmec.py fixed 21 20 201 > vmec_fixed_m21_n20_ns201.log 2>&1
+16:43:33 START MAXITER=30 python -u 05_desc_fixed.py 16 16 16 jacobi desc_fixed_L12_M12_N12_jacobi.h5 > desc_fixed_16_16_16_jacobi.log 2>&1
+17:44:09 END(0) MAXITER=30 python -u 05_desc_fixed.py 16 16 16 jacobi desc_fixed_L12_M12_N12_jacobi.h5 > desc_fixed_16_16_16_jacobi.log 2>&1
+17:44:09 START bash 08_mrx_run.sh desc_fixed_L8_M8_N8_jacobi.h5 desc_L8_jacobi "12 16 16" 20
+17:48:41 END(0) bash 08_mrx_run.sh desc_fixed_L8_M8_N8_jacobi.h5 desc_L8_jacobi "12 16 16" 20
+17:48:41 START (cd ../scan && python -u 11_vmec_scale_test.py 0.7 > scale_0.7.log 2>&1)
+17:54:55 END(0) (cd ../scan && python -u 11_vmec_scale_test.py 0.7 > scale_0.7.log 2>&1)
+17:54:55 START (cd ../scan && python -u 11_vmec_scale_test.py 0.8 > scale_0.8.log 2>&1)
+18:02:01 END(0) (cd ../scan && python -u 11_vmec_scale_test.py 0.8 > scale_0.8.log 2>&1)
+18:02:01 START bash 08_mrx_run.sh desc_fixed_L12_M12_N12_jacobi.h5 desc_L12_jacobi "12 16 16" 20
+18:06:41 END(0) bash 08_mrx_run.sh desc_fixed_L12_M12_N12_jacobi.h5 desc_L12_jacobi "12 16 16" 20
+18:06:41 START python -u 12_desc_from_vmec.py 12 12 12 wout_vmec_fixed_m21_n20_ns201.nc 50 > desc_fromvmec_12.log 2>&1
+18:23:29 END(0) python -u 12_desc_from_vmec.py 12 12 12 wout_vmec_fixed_m21_n20_ns201.nc 50 > desc_fromvmec_12.log 2>&1
+18:23:29 START bash 08_mrx_run.sh desc_fixed_L12_M12_N12_jacobi-dna.h5 desc_L12_jacobi-dna "12 16 16" 20
+18:27:58 END(0) bash 08_mrx_run.sh desc_fixed_L12_M12_N12_jacobi-dna.h5 desc_L12_jacobi-dna "12 16 16" 20
+18:27:58 START bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns51.nc vmec_m9_ns51 "12 16 16" 20

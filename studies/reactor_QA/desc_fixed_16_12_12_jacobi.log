@@ -1,0 +1,24 @@
+grid nodes 11025 innermost rho 0.0113 with 49 nodes
+Building objective: force
+Precomputing transforms
+Timer: Precomputing transforms = 2.17 sec
+Timer: Objective build = 3.66 sec
+Building objective: lcfs R
+Building objective: lcfs Z
+Building objective: fixed Psi
+Building objective: fixed pressure
+Building objective: fixed current
+Building objective: fixed sheet current
+Building objective: self_consistency R
+Building objective: self_consistency Z
+Building objective: lambda gauge
+Building objective: axis R self consistency
+Building objective: axis Z self consistency
+Timer: Objective build = 1.44 sec
+Timer: LinearConstraintProjection build = 8.46 sec
+Number of parameters: 4658
+Number of objectives: 22050
+Timer: Initializing the optimization = 13.6 sec
+
+Starting optimization
+Using method: lsq-exact

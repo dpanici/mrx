@@ -1,0 +1,77 @@
+boundary mapping check: max position mismatch 1.3e-14 m
+Building objective: force
+Precomputing transforms
+Building objective: lcfs R
+Building objective: lcfs Z
+Building objective: fixed Psi
+Building objective: fixed pressure
+Building objective: fixed current
+Building objective: fixed sheet current
+Building objective: self_consistency R
+Building objective: self_consistency Z
+Building objective: lambda gauge
+Building objective: axis R self consistency
+Building objective: axis Z self consistency
+Perturbing Rb_lmn, Zb_lmn
+Factorizing linear constraints
+Computing df
+Factoring df
+||dx||/||x|| =  7.874e-02
+perturb 70s
+Building objective: force
+Precomputing transforms
+Building objective: lcfs R
+Building objective: lcfs Z
+Building objective: fixed Psi
+Building objective: fixed pressure
+Building objective: fixed current
+Building objective: fixed sheet current
+Building objective: self_consistency R
+Building objective: self_consistency Z
+Building objective: lambda gauge
+Building objective: axis R self consistency
+Building objective: axis Z self consistency
+Number of parameters: 2784
+Number of objectives: 16758
+
+Starting optimization
+Using method: lsq-exact
+Optimization terminated successfully.
+`xtol` condition satisfied. (xtol=1.00e-10)
+         Current function value: 8.769e-02
+         Total delta_x: 7.054e-01
+         Iterations: 25
+         Function evaluations: 53
+         Jacobian evaluations: 26
+==============================================================================================================
+                                                                 Start  -->   End
+Total (sum of squares):                                      7.038e+11  -->   8.769e-02, 
+Maximum absolute Force error:                                6.327e+16  -->   2.193e+09 (N)
+Minimum absolute Force error:                                7.207e+02  -->   8.443e+01 (N)
+Average absolute Force error:                                1.120e+12  -->   1.848e+07 (N)
+Maximum absolute Force error:                                1.461e+07  -->   5.063e-01 (normalized)
+Minimum absolute Force error:                                1.664e-07  -->   1.949e-08 (normalized)
+Average absolute Force error:                                2.586e+02  -->   4.266e-03 (normalized)
+R boundary error:                                            0.000e+00  -->   3.419e-16 (m)
+Z boundary error:                                            0.000e+00  -->   5.510e-16 (m)
+Fixed Psi error:                                             0.000e+00  -->   0.000e+00 (Wb)
+Fixed pressure profile error:                                0.000e+00  -->   0.000e+00 (Pa)
+Fixed current profile error:                                 0.000e+00  -->   1.192e-07 (A)
+Fixed sheet current error:                                   0.000e+00  -->   0.000e+00 (~)
+==============================================================================================================
+
+solve 640s
+== free-boundary residual of DESC's equilibrium on the vmec_free_m13_n12_ns101 boundary
+Maximum absolute Boundary normal field error:                6.551e+01 (T*m^2)
+Minimum absolute Boundary normal field error:                5.048e-14 (T*m^2)
+Average absolute Boundary normal field error:                4.360e+00 (T*m^2)
+Maximum absolute Boundary normal field error:                6.312e-01 (normalized)
+Minimum absolute Boundary normal field error:                4.863e-16 (normalized)
+Average absolute Boundary normal field error:                4.201e-02 (normalized)
+Maximum absolute Boundary magnetic pressure error:           6.880e+02 (T^2*m^2)
+Minimum absolute Boundary magnetic pressure error:           1.003e-02 (T^2*m^2)
+Average absolute Boundary magnetic pressure error:           3.223e+01 (T^2*m^2)
+Maximum absolute Boundary magnetic pressure error:           1.247e+00 (normalized)
+Minimum absolute Boundary magnetic pressure error:           1.818e-05 (normalized)
+Average absolute Boundary magnetic pressure error:           5.843e-02 (normalized)
+|B| on LCFS, DESC vs VMEC++ wout: max rel diff 3.18e-01

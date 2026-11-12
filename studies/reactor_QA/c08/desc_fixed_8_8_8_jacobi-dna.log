@@ -1,0 +1,70 @@
+grid nodes 2739 innermost rho 0.0363 with 99 nodes
+Building objective: force
+Precomputing transforms
+Timer: Precomputing transforms = 1.55 sec
+Timer: Objective build = 2.85 sec
+Building objective: lcfs R
+Building objective: lcfs Z
+Building objective: fixed Psi
+Building objective: fixed pressure
+Building objective: fixed current
+Building objective: fixed sheet current
+Building objective: self_consistency R
+Building objective: self_consistency Z
+Building objective: lambda gauge
+Building objective: axis R self consistency
+Building objective: axis Z self consistency
+Timer: Objective build = 1.36 sec
+Timer: LinearConstraintProjection build = 3.97 sec
+Number of parameters: 856
+Number of objectives: 5478
+Timer: Initializing the optimization = 8.25 sec
+
+Starting optimization
+Using method: lsq-exact
+Solver options:
+------------------------------------------------------------
+Maximum Function Evaluations       : 301
+Maximum Allowed Total Δx Norm      : inf
+Scaled Termination                 : True
+Trust Region Method                : qr
+Initial Trust Radius               : 1.449e+02
+Maximum Trust Radius               : inf
+Minimum Trust Radius               : 2.220e-16
+Trust Radius Increase Ratio        : 2.000e+00
+Trust Radius Decrease Ratio        : 2.500e-01
+Trust Radius Increase Threshold    : 7.500e-01
+Trust Radius Decrease Threshold    : 2.500e-01
+------------------------------------------------------------ 
+
+   Iteration     Total nfev        Cost      Cost reduction    Step norm     Optimality   
+       0              1          1.727e-06                                    4.975e-10   
+       1              2          1.727e-06      3.184e-16      5.333e-06      4.951e-10   
+Optimization terminated successfully.
+`ftol` condition satisfied. (ftol=1.00e-08)
+         Current function value: 1.727e-06
+         Total delta_x: 5.333e-06
+         Iterations: 1
+         Function evaluations: 2
+         Jacobian evaluations: 2
+Timer: Solution time = 9.09 sec
+Timer: Avg time per step = 4.54 sec
+==============================================================================================================
+                                                                 Start  -->   End
+Total (sum of squares):                                      1.727e-06  -->   1.727e-06, 
+Maximum absolute Force error:                                1.666e+06  -->   1.666e+06 (N)
+Minimum absolute Force error:                                6.166e+00  -->   6.972e+00 (N)
+Average absolute Force error:                                8.623e+04  -->   8.623e+04 (N)
+Maximum absolute Force error:                                4.494e-04  -->   4.494e-04 (normalized)
+Minimum absolute Force error:                                1.663e-09  -->   1.880e-09 (normalized)
+Average absolute Force error:                                2.326e-05  -->   2.326e-05 (normalized)
+R boundary error:                                            0.000e+00  -->   1.388e-17 (m)
+Z boundary error:                                            0.000e+00  -->   2.776e-17 (m)
+Fixed Psi error:                                             0.000e+00  -->   0.000e+00 (Wb)
+Fixed pressure profile error:                                0.000e+00  -->   0.000e+00 (Pa)
+Fixed current profile error:                                 0.000e+00  -->   5.960e-08 (A)
+Fixed sheet current error:                                   0.000e+00  -->   0.000e+00 (~)
+==============================================================================================================
+
+desc_fixed_L8_M8_N8_jacobi-dna: solve 20s, nfev 2
+{'V': 581.8723659383495, 'beta': 0.025383946102806317, 'aspect': 5.999999678978328, 'a': 1.7000000000000004, 'R0': 10.199999454263159, 'Bavg': 5.859079523147494, 'W_B': 7971065516.733206, 'W_p': -202337097.45869368, 'force': 0.003258681116193998, 'wall': 31.029266119003296} iota [0.40433313 0.58803553]

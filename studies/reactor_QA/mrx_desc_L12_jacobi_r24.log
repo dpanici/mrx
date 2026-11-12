@@ -1,0 +1,12 @@
+[env] mrx from /home/user/mrx/mrx/__init__.py  precision float64  batch 262144
+[geom] desc_fixed_L12_M12_N12_jacobi.h5: nfp=2, det DPhi in [7.682e+01, 7.039e+02], symmetry stellarator (map projected, defect 7.1e-15, half-period quadrature)
+[geom] sequence (24, 24, 24) p=2 built in 132 s
+[nullspace] odd k=2 dbc: v^T L v / v^T M v = 3.42e-17
+[nullspace] odd k=1 free: v^T L v / v^T M v = 1.26e-15
+[nullspace] even k=3 dbc: v^T L v / v^T M v = 5.05e-15
+[nullspace] even k=0 free: v^T L v / v^T M v = 7.58e-32
+[setup] desc_fixed_L12_M12_N12_jacobi.h5 resolution (24, 24, 24) degree 2 tol=1.0e-08  n2_dbc=18702  operators+nullspaces 145.2s
+[ic] desc IC in 23.3s: nfp 2, iota_axis 0.3453, iota_edge 0.6133, B_norm_raw 100.1, wall_discarded 0, div 3.269e-16
+
+=== Gauss-Newton penalty=3 tol=1.0e-01 maxiter=300 mass-solve-tol=1e-06  smoothing@9.001e-04  steps<=20 chunk=5 floor-tol=0.0e+00 ===
+[start] it 0  E=5.00000000e-01  |F|=5.9403e-06  resid=8.0171e-07  H=+2.597474e-02  J/B=0.0818  beta_vol=2.602e-02

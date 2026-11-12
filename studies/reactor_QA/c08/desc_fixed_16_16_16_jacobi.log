@@ -1,0 +1,98 @@
+grid nodes 18785 innermost rho 0.0113 with 65 nodes
+Building objective: force
+Precomputing transforms
+Timer: Precomputing transforms = 1.55 sec
+Timer: Objective build = 2.55 sec
+Building objective: lcfs R
+Building objective: lcfs Z
+Building objective: fixed Psi
+Building objective: fixed pressure
+Building objective: fixed current
+Building objective: fixed sheet current
+Building objective: self_consistency R
+Building objective: self_consistency Z
+Building objective: lambda gauge
+Building objective: axis R self consistency
+Building objective: axis Z self consistency
+Timer: Objective build = 1.02 sec
+Timer: LinearConstraintProjection build = 15.1 sec
+Number of parameters: 6480
+Number of objectives: 37570
+Timer: Initializing the optimization = 18.7 sec
+
+Starting optimization
+Using method: lsq-exact
+Solver options:
+------------------------------------------------------------
+Maximum Function Evaluations       : 151
+Maximum Allowed Total Δx Norm      : inf
+Scaled Termination                 : True
+Trust Region Method                : qr
+Initial Trust Radius               : 8.142e+02
+Maximum Trust Radius               : inf
+Minimum Trust Radius               : 2.220e-16
+Trust Radius Increase Ratio        : 2.000e+00
+Trust Radius Decrease Ratio        : 2.500e-01
+Trust Radius Increase Threshold    : 7.500e-01
+Trust Radius Decrease Threshold    : 2.500e-01
+------------------------------------------------------------ 
+
+   Iteration     Total nfev        Cost      Cost reduction    Step norm     Optimality   
+       0              1          3.993e-08                                    1.145e-05   
+       1              6          2.677e-08      1.316e-08      8.801e-03      4.999e-05   
+       2              7          2.224e-08      4.527e-09      4.466e-03      3.328e-05   
+       3              8          1.813e-08      4.117e-09      4.287e-03      2.128e-05   
+       4              9          1.528e-08      2.845e-09      3.933e-03      2.399e-05   
+       5             10          1.370e-08      1.584e-09      3.658e-03      2.080e-05   
+       6             11          1.252e-08      1.180e-09      3.546e-03      1.974e-05   
+       7             12          1.159e-08      9.296e-10      3.494e-03      2.059e-05   
+       8             13          1.084e-08      7.482e-10      3.392e-03      2.109e-05   
+       9             14          1.026e-08      5.800e-10      3.272e-03      2.143e-05   
+      10             15          9.671e-09      5.890e-10      3.159e-03      2.094e-05   
+      11             16          9.153e-09      5.176e-10      3.047e-03      1.956e-05   
+      12             17          8.667e-09      4.861e-10      2.947e-03      1.682e-05   
+      13             18          8.154e-09      5.131e-10      2.850e-03      1.312e-05   
+      14             19          7.688e-09      4.656e-10      2.768e-03      9.543e-06   
+      15             20          7.292e-09      3.961e-10      2.708e-03      7.432e-06   
+      16             21          6.980e-09      3.116e-10      2.671e-03      6.252e-06   
+      17             22          6.749e-09      2.310e-10      2.652e-03      6.833e-06   
+      18             23          6.573e-09      1.768e-10      2.647e-03      7.217e-06   
+      19             24          5.937e-09      6.360e-10      6.634e-04      4.242e-07   
+      20             25          5.884e-09      5.230e-11      1.322e-03      1.761e-06   
+      21             26          5.793e-09      9.154e-11      1.324e-03      1.779e-06   
+      22             27          5.703e-09      8.937e-11      1.326e-03      1.856e-06   
+      23             28          5.615e-09      8.869e-11      1.327e-03      1.894e-06   
+      24             29          5.528e-09      8.670e-11      1.327e-03      1.907e-06   
+      25             30          5.443e-09      8.478e-11      1.327e-03      1.957e-06   
+      26             31          5.360e-09      8.330e-11      1.326e-03      2.048e-06   
+      27             32          5.278e-09      8.205e-11      1.326e-03      2.095e-06   
+      28             33          5.197e-09      8.078e-11      1.325e-03      2.093e-06   
+      29             34          5.118e-09      7.938e-11      1.325e-03      2.040e-06   
+      30             35          5.040e-09      7.791e-11      1.325e-03      1.944e-06   
+Warning: Maximum number of iterations has been exceeded.
+         Current function value: 5.040e-09
+         Total delta_x: 6.266e-02
+         Iterations: 30
+         Function evaluations: 35
+         Jacobian evaluations: 31
+Timer: Solution time = 59.9 min
+Timer: Avg time per step = 1.93 min
+==============================================================================================================
+                                                                 Start  -->   End
+Total (sum of squares):                                      3.993e-08  -->   5.040e-09, 
+Maximum absolute Force error:                                4.476e+05  -->   8.622e+04 (N)
+Minimum absolute Force error:                                7.274e-02  -->   8.957e-02 (N)
+Average absolute Force error:                                1.430e+04  -->   4.484e+03 (N)
+Maximum absolute Force error:                                1.207e-04  -->   2.325e-05 (normalized)
+Minimum absolute Force error:                                1.962e-11  -->   2.416e-11 (normalized)
+Average absolute Force error:                                3.858e-06  -->   1.209e-06 (normalized)
+R boundary error:                                            0.000e+00  -->   1.388e-17 (m)
+Z boundary error:                                            0.000e+00  -->   5.421e-20 (m)
+Fixed Psi error:                                             0.000e+00  -->   0.000e+00 (Wb)
+Fixed pressure profile error:                                0.000e+00  -->   0.000e+00 (Pa)
+Fixed current profile error:                                 0.000e+00  -->   0.000e+00 (A)
+Fixed sheet current error:                                   0.000e+00  -->   0.000e+00 (~)
+==============================================================================================================
+
+desc_fixed_L16_M16_N16_jacobi: solve 3619s, nfev 35
+{'V': 581.8723659384007, 'beta': 0.025386197416024128, 'aspect': 5.999999678978861, 'a': 1.6999999999999997, 'R0': 10.199999454264063, 'Bavg': 5.859080765105932, 'W_B': 7971085046.653169, 'W_p': -202355538.61425522, 'force': 0.00017940620871866503, 'wall': 3631.4426929950714} iota [0.36620644 0.57432889]

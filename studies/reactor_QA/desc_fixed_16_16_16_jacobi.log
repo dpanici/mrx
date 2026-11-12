@@ -1,0 +1,44 @@
+grid nodes 18785 innermost rho 0.0113 with 65 nodes
+Building objective: force
+Precomputing transforms
+Timer: Precomputing transforms = 2.24 sec
+Timer: Objective build = 3.80 sec
+Building objective: lcfs R
+Building objective: lcfs Z
+Building objective: fixed Psi
+Building objective: fixed pressure
+Building objective: fixed current
+Building objective: fixed sheet current
+Building objective: self_consistency R
+Building objective: self_consistency Z
+Building objective: lambda gauge
+Building objective: axis R self consistency
+Building objective: axis Z self consistency
+Timer: Objective build = 1.54 sec
+Timer: LinearConstraintProjection build = 19.3 sec
+Number of parameters: 6480
+Number of objectives: 37570
+Timer: Initializing the optimization = 24.8 sec
+
+Starting optimization
+Using method: lsq-exact
+Solver options:
+------------------------------------------------------------
+Maximum Function Evaluations       : 301
+Maximum Allowed Total Δx Norm      : inf
+Scaled Termination                 : True
+Trust Region Method                : qr
+Initial Trust Radius               : 8.047e+02
+Maximum Trust Radius               : inf
+Minimum Trust Radius               : 2.220e-16
+Trust Radius Increase Ratio        : 2.000e+00
+Trust Radius Decrease Ratio        : 2.500e-01
+Trust Radius Increase Threshold    : 7.500e-01
+Trust Radius Decrease Threshold    : 2.500e-01
+------------------------------------------------------------ 
+
+   Iteration     Total nfev        Cost      Cost reduction    Step norm     Optimality   
+       0              1          4.079e-08                                    1.319e-05   
+       1              7          2.215e-08      1.864e-08      3.987e-03      1.253e-05   
+       2              9          2.045e-08      1.695e-09      1.612e-03      1.724e-06   
+       3             10          1.970e-08      7.527e-10      2.997e-03      5.321e-06   

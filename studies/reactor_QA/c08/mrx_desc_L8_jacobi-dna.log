@@ -1,0 +1,38 @@
+[env] mrx from /home/user/mrx/mrx/__init__.py  precision float64  batch 262144
+[geom] desc_fixed_L8_M8_N8_jacobi-dna.h5: nfp=2, det DPhi in [7.671e+01, 6.755e+02], symmetry stellarator (map projected, defect 1.8e-15, half-period quadrature)
+[geom] sequence (12, 16, 16) p=2 built in 60 s
+[nullspace] odd k=2 dbc: v^T L v / v^T M v = 8.24e-18
+[nullspace] odd k=1 free: v^T L v / v^T M v = 3.99e-16
+[nullspace] even k=3 dbc: v^T L v / v^T M v = 9.17e-15
+[nullspace] even k=0 free: v^T L v / v^T M v = 2.42e-32
+[setup] desc_fixed_L8_M8_N8_jacobi-dna.h5 resolution (12, 16, 16) degree 2 tol=1.0e-08  n2_dbc=3710  operators+nullspaces 68.6s
+[ic] desc IC in 9.3s: nfp 2, iota_axis 0.3892, iota_edge 0.588, B_norm_raw 100.1, wall_discarded 0, div 1.694e-16
+
+=== Gauss-Newton penalty=3 tol=1.0e-01 maxiter=300 mass-solve-tol=1e-06  smoothing@4.337e-03  steps<=20 chunk=5 floor-tol=0.0e+00 ===
+[start] it 0  E=5.00000000e-01  |F|=1.7201e-05  resid=6.3655e-06  H=+2.070525e-02  J/B=0.0760  beta_vol=2.621e-02
+  it     5  E_0-E=1.2148e-06  |F|=1.5631e-06  resid=1.445e-06 (chunk mean)  H=+2.070502e-02  dH=-2.252e-07  dt=+1.000e+00  cos min=+0.3942  divB=1.70e-16  beta_vol=2.598e-02  [34s steps +4s other]
+           newton: MINRES it mean 41 max 56, unconverged 0, dt* mean 4.197e+00
+  it    10  E_0-E=1.4178e-06  |F|=1.1116e-06  resid=3.679e-08 (chunk mean)  H=+2.070499e-02  dH=-2.617e-07  dt=+1.000e+00  cos min=+0.6277  divB=1.73e-16  beta_vol=2.595e-02  [51s steps +4s other]
+           newton: MINRES it mean 34 max 37, unconverged 0, dt* mean 1.371e+01
+  it    15  E_0-E=1.5615e-06  |F|=1.0833e-06  resid=2.729e-08 (chunk mean)  H=+2.070501e-02  dH=-2.402e-07  dt=+1.000e+00  cos min=+0.5866  divB=1.77e-16  beta_vol=2.588e-02  [63s steps +5s other]
+           newton: MINRES it mean 25 max 29, unconverged 0, dt* mean 1.934e+01
+  it    20  E_0-E=1.6723e-06  |F|=9.8205e-07  resid=2.392e-08 (chunk mean)  H=+2.070505e-02  dH=-2.023e-07  dt=+1.000e+00  cos min=+0.5676  divB=1.80e-16  beta_vol=2.582e-02  [75s steps +5s other]
+           newton: MINRES it mean 22 max 23, unconverged 0, dt* mean 1.981e+01
+
+--- 20 steps in 74.6s (3.73 s/step), stopped on: steps
+    E_0 5.00000000e-01, E_0 - E 1.6723e-06  (0.0003% of the initial energy removed)
+    residual 6.3655e-06 -> 2.1844e-08  (mean over the last chunk of 5 steps 2.3922e-08, min 2.1844e-08)
+    best state: step 19, residual 2.1844e-08
+    |dE - dE_ls| / E0 (the velocity's gradient part against grad p): median 2.192e-14  max 2.476e-13
+    energy increases on 0/20 steps,  ||div B|| max 1.797e-16,  ||J||/||B|| 7.5958e-02 -> 7.3196e-02
+    helicity +2.070525e-02 -> +2.070505e-02  drift -2.023e-07  relative -9.772e-06
+    beta_vol 2.6214e-02 -> 2.5818e-02
+    CFL cap (C=0.5) bound on 20/20 steps,  dt/dt* min 0.050 mean 0.137,  CFL number taken max 0.199
+    newton: MINRES iterations mean 30.8  max 56  unconverged on 0/20 steps,  dt* mean 1.426e+01
+wrote mrx_desc_L8_jacobi-dna/relax.json and mrx_desc_L8_jacobi-dna/checkpoints/ (best.h5: step 19, residual 2.184e-08)
+[geom] desc_fixed_L8_M8_N8_jacobi-dna.h5: nfp=2, det DPhi in [7.671e+01, 6.755e+02], symmetry stellarator (map projected, defect 1.8e-15, half-period quadrature)
+[geom] sequence (12, 16, 16) p=2 built in 68 s
+[trace] desc_fixed_L8_M8_N8_jacobi-dna.h5 (12, 16, 16) p=2: fields ['state_000000', 'best'], nfp=2, symmetry stellarator, planes ['0', '0.25', '0.5'] (300 steps per period)
+[state_000000] B^zeta/|B| in [+8.563e-01, +9.989e-01], trace 20.6s, 0/60 lost, 0 chaotic, drift 9.95e-05, iota 0.3969..0.6056
+[best] B^zeta/|B| in [+8.547e-01, +9.997e-01], trace 20.0s, 0/60 lost, 0 chaotic, drift 8.94e-05, iota 0.3967..0.6056
+  -> /home/user/mrx/reactor_QA_study/c08/mrx_desc_L8_jacobi-dna/trace.npz

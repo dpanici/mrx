@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/home/user/mrx/reactor_QA_study/05_desc_fixed.py", line 17, in <module>
+    eq = desc.io.load(sys.argv[5] if len(sys.argv) > 5 else "reactor_QA_even.h5")
+  File "/home/user/venv/lib/python3.13/site-packages/desc/io/optimizable_io.py", line 58, in load
+    with h5py.File(load_from, "r") as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/home/user/venv/lib/python3.13/site-packages/h5py/_hl/files.py", line 555, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, fcpl, swmr=swmr)
+  File "/home/user/venv/lib/python3.13/site-packages/h5py/_hl/files.py", line 232, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 106, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to synchronously open file (unable to open file: name = 'desc_fixed_L16_M12_N12_jacobi.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)

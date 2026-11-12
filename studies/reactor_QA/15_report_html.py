@@ -1,0 +1,280 @@
+"""Builds report/index.html from report/tables.json and the figures in report/."""
+import json, math
+
+T = json.load(open("report/tables.json"))
+
+
+def f(x, fmt):
+    return "–" if x is None or (isinstance(x, float) and math.isnan(x)) else format(x, fmt)
+
+
+def ladder_table(rows, ref_label):
+    h = ['<div class="tbl"><table><thead><tr><th>Run</th><th class="n">ι(s=0.01)</th><th class="n">max ι</th><th class="n">ι(1)</th>'
+         '<th class="n" colspan="4">surface distance to reference [mm]<br><span class="sub">ρ = 0.2 · 0.4 · 0.6 · 0.8</span></th>'
+         '<th class="n">axis [mm]</th><th class="n">max |Δι|</th><th>solver residual</th><th class="n">wall [s]</th></tr></thead><tbody>']
+    for r in rows:
+        cls = r["code"] + (" ref" if r["ref"] else "")
+        if r["code"] == "vmec":
+            extra = "fsq %s · √g ratio %s at s=%s" % (f(r["fsq"], ".0e"), f(r["sqrtg"], ".4f"), f(r["sqrtg_s"], ".2f"))
+        else:
+            extra = "⟨|F|⟩ norm. %s" % f(r["force"], ".1e")
+        d = "".join('<td class="n">%s</td>' % ("ref" if r["ref"] else f(x, ".1f")) for x in r["d"])
+        h.append('<tr class="%s"><td><span class="dot"></span>%s</td><td class="n">%s</td><td class="n">%s</td><td class="n">%s</td>%s'
+                 '<td class="n">%s</td><td class="n">%s</td><td class="mono">%s</td><td class="n">%s</td></tr>'
+                 % (cls, r["label"], f(r["iota_axis"], ".4f"), f(r["iota_max"], ".4f"), f(r["iota_edge"], ".4f"), d,
+                    "ref" if r["ref"] else f(r["axis"], ".1f"), "ref" if r["ref"] else f(r["diota"], ".4f"), extra, f(r["wall"], ".0f")))
+    h.append("</tbody></table></div><p class=\"cap\">Reference: %s. Surface distance is the larger of the two one-sided "
+             "Hausdorff distances between the flux-surface curves, maximised over the planes φ = 0, ¼ and ½ of a field period.</p>" % ref_label)
+    return "\n".join(h)
+
+
+def free_table(rows, ref):
+    h = ['<div class="tbl"><table><thead><tr><th>Run</th><th class="n">LCFS shift from fixed [mm]</th><th class="n">LCFS vs DESC free [mm]</th>'
+         '<th class="n" colspan="4">surface distance to DESC free [mm]<br><span class="sub">ρ = 0.2 · 0.4 · 0.6 · 0.8</span></th><th class="n">axis vs DESC free [mm]</th>'
+         '<th class="n">B·n / |B| rms</th><th class="n">pressure balance rms</th><th class="n">VMEC++ DELBSQ</th><th class="n">V [m³]</th><th class="n">⟨β⟩</th>'
+         '<th class="n">ι(1)</th><th class="n">wall [s]</th></tr></thead><tbody>']
+    for lab, k in [("DESC fixed (12,12,12) = the fixed boundary", "desc_fixed_L12_M12_N12_jacobi"), ("VMEC++ fixed 13/12, ns 101 (same boundary)", "vmec_fixed_m13_n12_ns101")]:
+        if k in ref:
+            h.append('<tr class="%s muted"><td><span class="dot"></span>%s</td><td class="n">0</td><td colspan="6"></td><td class="n">%s</td><td class="n">%s</td><td colspan="5"></td></tr>'
+                     % ("desc" if k.startswith("desc") else "vmec", lab, f(ref[k]["rms_Bn"], ".1e"), f(ref[k]["rms_P"], ".1e")))
+    for r in rows:
+        own = r["code"] == "desc"
+        d = "".join('<td class="n">%s</td>' % ("ref" if own else f(x, ".1f")) for x in (r["d_desc"] or [None] * 4))
+        h.append('<tr class="%s"><td><span class="dot"></span>%s</td><td class="n">%s</td><td class="n">%s</td>%s<td class="n">%s</td><td class="n">%s</td><td class="n">%s</td>'
+                 '<td class="n">%s</td><td class="n">%s</td><td class="n">%s</td><td class="n">%s</td><td class="n">%s</td></tr>'
+                 % (r["code"], r["label"], f(r["lcfs"], ".0f"), "ref" if own else f(r["lcfs_desc"], ".0f"), d, "ref" if own else f(r["axis_desc"], ".1f"),
+                    f(r["rms_Bn"], ".1e"), f(r["rms_P"], ".1e"), f(r["delbsq"], ".1e"), f(r["V"], ".1f"), f(100 * r["beta"], ".3f") + " %",
+                    f(r["iota_edge"], ".4f"), f(r["wall"], ".0f")))
+    h.append("</tbody></table></div><p class=\"cap\">Residuals are computed the same way for every row: B from the run's own last closed flux surface "
+             "(VMEC++: bsupu, bsupv extrapolated to s = 1), the plasma's exterior field by DESC's singular virtual-casing integral on a 97×97 grid, "
+             "plus the coil field; normalised by ⟨B²⟩. DELBSQ is VMEC++'s own pressure-balance measure at the last iteration.</p>")
+    return "\n".join(h)
+
+
+def mrx_table(rows):
+    h = ['<div class="tbl"><table><thead><tr><th>Input equilibrium</th><th>MRX mesh</th><th class="n">initial ‖F‖</th><th class="n">final ‖F‖</th>'
+         '<th class="n">max |r − r₀|</th><th class="n">at r₀ (ι)</th><th class="n">chaotic lines</th></tr></thead><tbody>']
+    for r in rows:
+        code = "vmec" if r["label"].startswith("VMEC") else "desc"
+        if r.get("missing"):
+            h.append('<tr class="%s"><td><span class="dot"></span>%s</td><td colspan="6" class="muted">pending</td></tr>' % (code, r["label"]))
+            continue
+        bad = r["chaotic"] >= 10
+        h.append('<tr class="%s"><td><span class="dot"></span>%s</td><td class="mono">%s</td><td class="n">%s</td><td class="n">%s</td>'
+                 '<td class="n">%s</td><td class="n">%s (%s)</td><td class="n"><span class="chip %s">%d / %d</span></td></tr>'
+                 % (code, r["label"], "×".join(str(x) for x in r["res"]), f(r["F0"], ".1e"), f(r["Fb"], ".1e"), f(r["dep"], ".3f"),
+                    f(r["at_r"], ".2f"), f(r["at_iota"], ".3f"), "warn" if bad else "ok", r["chaotic"], r["n"]))
+    h.append("</tbody></table></div>")
+    return "\n".join(h)
+
+
+c = {r["tag"]: r for r in T["c08"]}
+o = {r["tag"]: r for r in T["orig"]}
+best_desc = c.get("desc_fixed_L20_M16_N16_jacobi") or c["desc_fixed_L20_M12_N12_jacobi"]
+fd = [r for r in T["free"] if r["code"] == "desc"][0]
+fvs = [r for r in T["free"] if r["code"] == "vmec"]
+fv = min(fvs, key=lambda r: r["lcfs_desc"])
+fr0 = T["free_ref"]
+html = f"""<title>reactor_QA Equilibrium Comparison</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap">
+<style>
+/* Layout: one reading column (68ch prose) with figure plates and tables allowed to run to 1180px. */
+:root {{
+  --bg: #f6f6f3; --fg: #1c1c1a; --muted: #5b5a55; --rule: #dcdad3; --panel: #ffffff;
+  --desc: #2a78d6; --vmec: #c4521f; --plate: #fcfcfb; --ok: #1d7a4d; --warn: #b4441a; --okbg: #e3f2ea; --warnbg: #fbe6dc;
+  --display: "Space Grotesk", "Inter", system-ui, sans-serif; --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}}
+@media (prefers-color-scheme: dark) {{ :root:not([data-theme="light"]) {{
+  --bg: #141513; --fg: #ebeae5; --muted: #a8a79f; --rule: #2f302c; --panel: #1c1d1b;
+  --desc: #6aa6ee; --vmec: #ee8a5c; --ok: #6fcf9c; --warn: #f08f66; --okbg: #1d3328; --warnbg: #3a2219; color-scheme: dark }} }}
+:root[data-theme="dark"] {{
+  --bg: #141513; --fg: #ebeae5; --muted: #a8a79f; --rule: #2f302c; --panel: #1c1d1b;
+  --desc: #6aa6ee; --vmec: #ee8a5c; --ok: #6fcf9c; --warn: #f08f66; --okbg: #1d3328; --warnbg: #3a2219; color-scheme: dark }}
+body {{ background: var(--bg); color: var(--fg); font: 15px/1.6 var(--body); }}
+.wrap {{ max-width: 1180px; margin: 0 auto; padding-block: 40px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 22px; }}
+.wrap > * {{ min-width: 0; }}
+h1, h2, h3 {{ font-family: var(--display); text-wrap: balance; margin: 0; line-height: 1.2; }}
+h1 {{ font-size: clamp(26px, 4vw, 36px); font-weight: 600; letter-spacing: -0.01em; }}
+h2 {{ font-size: 22px; font-weight: 600; padding-top: 22px; border-top: 1px solid var(--rule); margin-top: 18px; }}
+h3 {{ font-size: 16px; font-weight: 600; }}
+p, ul, ol {{ margin: 0; max-width: 72ch; }}
+li + li {{ margin-top: 6px; }}
+.eyebrow {{ font: 500 12px/1.4 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }}
+.lede {{ font-size: 17px; max-width: 70ch; }}
+.muted, .cap {{ color: var(--muted); }}
+.cap {{ font-size: 13px; max-width: 90ch; }}
+code, .mono {{ font-family: var(--mono); font-size: 0.88em; }}
+.d {{ color: var(--desc); font-weight: 600; }} .v {{ color: var(--vmec); font-weight: 600; }}
+.findings {{ display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }}
+.finding {{ background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; display: grid; gap: 6px; align-content: start; }}
+.finding b {{ font-family: var(--display); font-size: 15px; font-weight: 600; }}
+.finding p {{ font-size: 14px; }}
+figure {{ margin: 0; display: grid; gap: 8px; }}
+.plate {{ background: var(--plate); border: 1px solid var(--rule); border-radius: 6px; padding: 8px; overflow-x: auto; }}
+.plate img {{ display: block; width: 100%; min-width: 640px; height: auto; }}
+.pair {{ display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }}
+.pair .plate img {{ min-width: 0; }}
+.tbl {{ overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--panel); }}
+table {{ border-collapse: collapse; width: 100%; font-size: 13px; }}
+th, td {{ padding: 6px 10px; text-align: left; white-space: nowrap; border-bottom: 1px solid var(--rule); }}
+thead th {{ font-weight: 600; font-size: 12px; color: var(--muted); vertical-align: bottom; }}
+.sub {{ font-weight: 400; font-family: var(--mono); font-size: 11px; }}
+td.n, th.n {{ text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }}
+tbody tr:last-child td {{ border-bottom: 0; }}
+tr.ref td {{ font-weight: 600; }}
+.dot {{ display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; vertical-align: 1px; }}
+tr.desc .dot {{ background: var(--desc); }} tr.vmec .dot {{ background: var(--vmec); }}
+.chip {{ display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; }}
+.chip.ok {{ background: var(--okbg); color: var(--ok); }} .chip.warn {{ background: var(--warnbg); color: var(--warn); }}
+.status {{ display: grid; gap: 8px; grid-template-columns: auto 1fr; align-items: baseline; max-width: 90ch; }}
+.status .chip {{ justify-self: start; }}
+dl.files {{ display: grid; grid-template-columns: minmax(0, max-content) minmax(0, 1fr); gap: 4px 16px; margin: 0; font-size: 13px; }}
+dl.files dt {{ font-family: var(--mono); overflow-wrap: anywhere; }} dl.files dd {{ margin: 0; color: var(--muted); }}
+@media (max-width: 640px) {{ dl.files {{ grid-template-columns: 1fr; }} dl.files dd {{ margin-bottom: 8px; }} }}
+</style>
+
+<div class="wrap">
+<header style="display:grid;gap:10px">
+  <div class="eyebrow">DESC 0.17.3 · VMEC++ 0.9.3 · MRX dd1942e · fixed and free boundary</div>
+  <h1>reactor_QA equilibrium comparison</h1>
+  <p class="lede">The reactor_QA DESC example, with its toroidal current made even in ρ, was solved in fixed boundary with
+  <span class="d">DESC</span> and <span class="v">VMEC++</span> on resolution ladders, and every result was relaxed with MRX to see
+  how far the nested surfaces survive. The scaled case was then run in free boundary with both codes, using one REGCOIL coil field.</p>
+</header>
+
+<section class="findings" aria-label="Main findings">
+  <div class="finding"><b>The even-current reactor_QA is nearly singular</b>
+    <p>Its reversed-shear ι peaks just under 2/3. With more VMEC++ resolution the peak climbs to {o['vmec_fixed_m17_n16_ns201']['iota_max']:.4f}
+    and the flux surfaces pinch near s ≈ 0.8 (√g ratio {o['vmec_fixed_m17_n16_ns201']['sqrtg']:.4f}); at ns = 401 VMEC++ no longer converges.
+    DESC and VMEC++ cannot agree there.</p></div>
+  <div class="finding"><b>With the current × 0.8 the problem is well posed</b>
+    <p>ι peaks at {c['vmec_fixed_m21_n20_ns201']['iota_max']:.3f}. VMEC++ converges radially and in Fourier modes; 17/16 and 21/20 at ns = 201
+    differ by at most {c['vmec_fixed_m17_n16_ns201']['d'][3]:.1f} mm.</p></div>
+  <div class="finding"><b>DESC approaches VMEC++ but is resolution-limited here</b>
+    <p>Best DESC run, {best_desc['label']}: axis within {best_desc['axis']:.1f} mm and ι within {best_desc['diota']:.4f}, but the ρ = 0.8
+    surface is still {best_desc['d'][3]:.0f} mm away. Raising L brings ι within 0.008; the outer surfaces likely need M, N ≳ 20 (VMEC++ needed mpol ≥ 17), which does not fit in 15 GB.</p></div>
+  <div class="finding"><b>MRX keeps the surfaces of smooth inputs</b>
+    <p>In the scaled case, DESC inputs and VMEC++ inputs with mpol = 9 relax with lines moving ≤ 0.09 in r, mostly at the 4/7 island chain. High-mpol VMEC++ inputs break up
+    near ι = 3/5, but much less once MRX resolves them (43 → 15 chaotic lines at 16×32×32).</p></div>
+  <div class="finding"><b>Free boundary: DESC is converged, VMEC++ is not yet</b>
+    <p>DESC (12,12,12) moves the boundary {fd['lcfs']:.0f} mm and cuts the free-boundary residual to {fd['rms_Bn']:.0e} (B·n) and {fd['rms_P']:.0e} (pressure), independent of quadrature.
+    VMEC++ stalls about 5× higher and its boundary drifts {fv['lcfs']:.0f}–{max(r['lcfs'] for r in fvs):.0f} mm, getting closer to DESC's only slowly as ns rises (best: {fv['lcfs_desc']:.0f} mm apart).</p></div>
+</section>
+
+<h2>Setup</h2>
+<ul>
+  <li><b>Even current.</b> The example's current <code>PowerSeriesProfile(..., sym=False)</code> has odd powers of ρ, which VMEC cannot represent.
+  It was replaced by a least-squares fit in ρ², ρ⁴, …, ρ¹⁶ (fit error 8×10⁻⁴ of max I), and the example's bootstrap-consistency optimisation was rerun
+  with only even powers (I(0) = 0 fixed). The kinetic profiles were then collapsed exactly into the pressure polynomial p = e n (Tₑ + Tᵢ).
+  Result: ⟨β⟩ = 2.54 %, I(1) = 2.53 MA, a = 1.7 m, R₀ = 10.2 m (<code>reactor_QA_even.h5</code>).</li>
+  <li><b>Same inputs to both codes.</b> The VMEC++ input is written from the DESC equilibrium by <code>VMECIO.write_vmec_input</code>. VMEC++ carries the
+  identical boundary, Φ, pressure and enclosed current; I(s) from the wout matches DESC to all printed digits (with the sign flip from VMEC's
+  left-handed θ).</li>
+  <li><b>DESC grid branch.</b> The <code>dp/iota-calc-in-force-bal</code> change (node pattern <code>jacobi-dna</code>: the innermost ρ ring gets as many nodes as
+  the next ring) applies cleanly to DESC 0.17.3 and was patched in; every DESC run states its pattern. Unmarked runs use the old <code>jacobi</code> grid.</li>
+  <li><b>MRX.</b> Each fixed-boundary file (DESC <code>.h5</code> or VMEC++ wout) is read by MRX, which builds its map and the file's own field B = dA′
+  and takes 20 Newton steps (<code>scripts/relax.py</code>), then traces 60 field lines for 300 periods in the same three planes.
+  MRX's logical r is √s of the input, so max |r − r₀| along a line measures directly how far it leaves its original surface.</li>
+  <li>Everything ran on 4 CPU cores and 15 GB, one job at a time.</li>
+</ul>
+
+<h2>Original even-current case</h2>
+<p>Raising VMEC++ resolution pushes the ι peak toward 2/3 without saturating, and the Jacobian on the surface just outside the peak heads to zero. The
+nested-surface solution is approaching a current sheet at the 3/1 resonance. DESC's polynomial radial basis smooths this region, so the two codes
+diverge in the interior as resolution grows, even though their axes converge.</p>
+<figure><div class="plate"><img src="orig_fixed.png" alt="Original case: rotational transform of all runs, with VMEC++ peaks rising toward 2/3, and flux surfaces of DESC 12³ versus VMEC++ 17/16 ns 201 at two planes, where VMEC++ surfaces are strongly triangular."></div>
+<figcaption class="cap">Original case. Left: |ι| for every run; the inset shows VMEC++ peaks climbing toward 2/3 with ns and mpol. Middle, right: ρ = 0.2 … 1
+surfaces of DESC (12,12,12) and VMEC++ 17/16, ns 201.</figcaption></figure>
+{ladder_table(T['orig'], 'VMEC++ 17/16, ns 201')}
+<p class="cap">VMEC++ 9/8, ns 401 stopped at its 50 000-iteration limit with fsq ≈ 1×10⁻⁹ after reaching 5×10⁻¹¹ earlier; its Jacobian ratio of 0.0003
+means neighbouring surfaces nearly touch. With 12 radial splines MRX's spline map folds for both ns = 201 files. With 32, the 17/16 map still folds, and for 9/8 the map builds but the toroidal
+angle stops being a valid field-line parameter near r = 0.9, so no Poincaré sections could be traced.</p>
+
+<h3>MRX on the original case</h3>
+<figure><div class="plate"><img src="orig_mrx.png" alt="Original case MRX: departure of relaxed field lines from their start surface; DESC inputs stay below 0.1, VMEC++ inputs reach 0.18 to 0.64, most of it near iota 0.6 to 2/3."></div>
+<figcaption class="cap">Left: largest departure of each relaxed field line from its start surface. Right: the same against the line's ι.</figcaption></figure>
+{mrx_table(T['mrx_orig'])}
+<figure class="pair">
+  <div class="plate"><img src="mrx_poincare_orig_vmec13.png" alt="Poincaré sections for VMEC++ 13/12 ns 101 in the original case: the initial field follows the nested surfaces, the relaxed field is chaotic outside r about 0.35."></div>
+</figure>
+<p class="cap">VMEC++ 13/12, ns 101, original case. Top: MRX initial field (on the input surfaces). Bottom: after relaxation, surfaces outside r ≈ 0.35 are destroyed.</p>
+
+<h2>Scaled case: current × 0.8</h2>
+<p>A scan of VMEC++ runs with the current multiplied by 0.70–0.90 picked 0.8. ι peaks at 0.61, 0.056 below 2/3, and the change of the peak between ns = 51 and 101 falls from 0.003 (original case) to 0.001. The reversed-shear top still crosses 3/5 twice with low shear (s ≈ 0.61 and 0.88). There
+VMEC++ resolves corner-like m ≈ 10 structure that needs mpol ≥ 17. A run at 0.7 has the same issue at 4/7.</p>
+<figure><div class="plate"><img src="c08_fixed.png" alt="Scaled case: rotational transform profiles of DESC and VMEC++ nearly overlap; flux surfaces of the best DESC run and VMEC++ 21/20 ns 201 agree near the axis and edge but differ at rho 0.6 to 0.8 where VMEC++ shows corners."></div>
+<figcaption class="cap">Scaled case. Left: |ι| with the low-order rationals ι = 2n/m for NFP = 2. Middle, right: best DESC run against the VMEC++ reference.</figcaption></figure>
+{ladder_table(T['c08'], 'VMEC++ 21/20, ns 201')}
+<ul>
+  <li><b>DESC's own 12³ solution is optimizer-limited.</b> Started from the VMEC++ solution, DESC (12,12,12) converges to a state with lower force error
+  ({c['desc_fromvmec_L12_M12_N12']['force']:.1e} against {c['desc_fixed_L12_M12_N12_jacobi']['force']:.1e}) that differs from its own solution by up to 34 mm and lies closer to VMEC++.</li>
+  <li><b>Radial resolution alone.</b> (20,12,12) from that start: ι error drops to {c['desc_fixed_L20_M12_N12_jacobi']['diota']:.4f}, near-axis ι to
+  {c['desc_fixed_L20_M12_N12_jacobi']['iota_axis']:.3f} (VMEC++ {c['vmec_fixed_m21_n20_ns201']['iota_axis']:.3f}), and the lowest force error of all DESC runs.
+  The outer surfaces move by only 4–8 mm, so their gap is set by M and N. Peak memory about 3 GB; about an hour.</li>
+  <li><b>What fits in 15 GB.</b> Measured peak memory: (16,16,16) 5 GB, (20,12,12) 3 GB. (20,16,16) was killed at 14 GB while forming its first Jacobian,
+  so (16,16,16) and (20,12,12) are the largest DESC runs this machine holds. The dense Jacobian alone is 6.3 GB at (24,16,16), 8.1 GB at (20,20,20) and
+  23 GB at (24,24,24); a GPU or larger-memory machine is needed to go further.</li>
+  <li><b>jacobi-dna grid.</b> On this case the denser innermost ring did not move DESC toward VMEC++. Near-axis ι ended slightly further away at 8³ and 12³
+  ({c['desc_fixed_L12_M12_N12_jacobi-dna']['iota_axis']:.3f} against {c['desc_fixed_L12_M12_N12_jacobi']['iota_axis']:.3f}; VMEC++ {c['vmec_fixed_m21_n20_ns201']['iota_axis']:.3f}).</li>
+</ul>
+
+<h3>MRX on the scaled case</h3>
+<figure><div class="plate"><img src="c08_mrx.png" alt="Scaled case MRX: DESC and mpol 9 VMEC++ inputs stay below 0.09 departure; mpol 13 and above VMEC++ inputs reach 0.4 to 0.5 at MRX 12x16x16, and 0.12 at MRX 16x32x32."></div>
+<figcaption class="cap">Departure of relaxed field lines from their input surface. Blue: DESC inputs. Green: VMEC++ mpol = 9. Orange: VMEC++ mpol ≥ 13. The darkest
+orange curve is VMEC++ 21/20 relaxed at MRX 16×32×32.</figcaption></figure>
+{mrx_table(T['mrx_c08'])}
+<p>At MRX 12×16×16 the high-mpol VMEC++ inputs start roughly 7–70 times further from force balance than the others, because MRX cannot represent their
+m ≈ 10 structure, and they reconnect violently. At 16×32×32 the initial force of VMEC++ 21/20 drops eightfold and the break-up shrinks to a band near
+ι = 3/5. The mpol = 9 control stays nearly intact at both MRX resolutions (0 and 3 chaotic lines), and so does DESC (16,16,16) at 16×32×32
+(1 chaotic line), whose initial force there is 30 times below that of VMEC++ 21/20. DESC's <code>.h5</code> could not be read at 16×32×32 within 15 GB
+(MRX evaluates the full Fourier–Zernike series at every quadrature point), so that run reads the same equilibrium written as a 201-surface wout by
+<code>VMECIO.save</code>, which reproduces it exactly on those surfaces.</p>
+<figure class="pair">
+  <div class="plate"><img src="mrx_poincare_c08_desc16.png" alt="Poincaré sections for DESC 16 cubed in the scaled case: relaxed field keeps its surfaces with small island chains."></div>
+  <div class="plate"><img src="mrx_poincare_c08_vmec21_r32.png" alt="Poincaré sections for VMEC++ 21/20 ns 201 in the scaled case at MRX 16x32x32: relaxed field keeps the core, with island chains and a partly stochastic outer band."></div>
+</figure>
+<p class="cap">Left: DESC (16,16,16), MRX 12×16×16. Right: VMEC++ 21/20, ns 201, MRX 16×32×32. In each, the top row is MRX's initial field on the input surfaces and the bottom row is the relaxed field.</p>
+
+<h2>Free boundary</h2>
+<p>The external field is a REGCOIL surface current on a winding surface 1.7 m outside the plasma (current potential with M = N = 10, λ = 10⁻²⁰),
+solved against the plasma field of DESC (12,12,12) by virtual casing. It leaves max |B·n| / ⟨B⟩ = 3.4×10⁻⁴ on the fixed boundary.
+VMEC++ takes it through a Biot–Savart callback that sums the same discretised surface current DESC uses (agreement 1×10⁻¹⁰), evaluated directly at its
+boundary points. DESC free boundary is <code>proximal-lsq-exact</code> on <code>BoundaryError</code> (24×24 boundary grid), 15 outer iterations, then a tight force-balance solve.</p>
+<figure><div class="plate"><img src="c08_free.png" alt="Flux surfaces in three toroidal planes: the DESC free-boundary surfaces lie close to the fixed-boundary DESC equilibrium; the VMEC++ free-boundary surfaces deviate by up to about 0.14 m, pulling in the tips at phi = 0 and bulging out at half a field period."></div>
+<figcaption class="cap">Scaled case. DESC fixed (12,12,12), the equilibrium the coil field was fitted to (grey); DESC free (12,12,12) (blue); VMEC++ free 13/12, ns 101 (orange, dashed).</figcaption></figure>
+{free_table(T['free'], fr0)}
+<p>Both codes start from the same problem. On the fixed boundary, the plasma fields of DESC and VMEC++ point the same way, both align with the coil field (cos 0.994),
+and |B| agrees to 7.6×10⁻⁴. With a converged quadrature the fixed boundary is already almost a free-boundary solution: the 1.4×10⁻⁴ starting value of DESC's objective
+was 99 % quadrature error at 24×24 (1.5×10⁻⁶ at 48×48), while its final value, 4.0×10⁻⁷, is the same on 24, 32, 40 and 48 grids. DESC therefore moves the boundary only
+{fd['lcfs']:.0f} mm.</p>
+<p>VMEC++ reaches fsq 10⁻¹¹ but its own pressure-balance measure DELBSQ stays at 4–7×10⁻⁴, and the independent residual agrees: its free boundaries balance worse than
+the fixed boundary they started from. The free-boundary residual is very insensitive to the boundary shape here (DESC moved 39 mm to halve a 10⁻⁴ residual),
+so a 3–5×10⁻⁴ floor leaves the VMEC++ boundary free to drift about 0.1 m. A finer vacuum grid (64×64, vacuum solve every iteration) and ns = 201 lower the floor
+and bring the boundary closer to DESC's ({fv['lcfs_desc']:.0f} mm); mpol 13 does not. Both codes' free boundaries pick up 1–20 mm of m = 5–10 shaping that the fixed
+boundary lacks (the coil current potential runs to M = N = 10); VMEC++ keeps 1–3 mm up to m = 12, where DESC's falls off (left panel below).</p>
+<figure><div class="plate"><img src="c08_free_diag.png" alt="Left: boundary Fourier amplitude per poloidal mode number; the fixed boundary decays to 1e-6 by m = 8, both free boundaries keep 1e-3 to 1e-2 up to m = 10, and only VMEC++ stays near 1e-3 at m = 11 and 12. Right: rms free-boundary residuals per run; DESC free is lowest, VMEC++ free runs are 3 to 8 times higher."></div>
+<figcaption class="cap">Left: largest boundary Fourier amplitude per poloidal mode number. Right: rms free-boundary residuals, computed the same way for every run (see the table note).</figcaption></figure>
+
+<h2>Status</h2>
+<div class="status">
+  <span class="chip ok">done</span><span>Fixed-boundary ladders for both cases, MRX on every fixed-boundary result, MRX resolution check.</span>
+  <span class="chip warn">limit</span><span>DESC beyond (16,16,16) / (20,12,12) does not fit in this container's 15 GB; (20,16,16) was killed for memory.</span>
+  <span class="chip ok">done</span><span>DESC free boundary (12,12,12) for the scaled case: 4.8 h, 9.4 GB peak (needs <code>desc.config["avail_mem"]</code> capped at 6 GB).</span>
+  <span class="chip warn">open</span><span>VMEC++ free boundary at 9/8 (ns 51–201) and 13/12 (ns 101) is still {fv['lcfs_desc']:.0f}–{max(r['lcfs_desc'] for r in fvs):.0f} mm from DESC; its residual falls slowly with ns. DESC free beyond (12,12,12) does not fit in 15 GB.</span>
+</div>
+
+<h2>Files</h2>
+<dl class="files">
+  <dt>reactor_QA_study/</dt><dd>Original even-current case: scripts 01–09, results <code>*.pkl</code>, DESC <code>*.h5</code>, VMEC++ <code>wout_*.nc</code>, MRX runs <code>mrx_*/</code></dd>
+  <dt>reactor_QA_study/c08/</dt><dd>Scaled case (current × 0.8), same layout, plus <code>12_desc_from_vmec.py</code> and the job queue <code>queue.sh</code></dd>
+  <dt>reactor_QA_study/scan/</dt><dd>VMEC++ convergence test of the current scale factor</dd>
+  <dt>reactor_QA_study/report/</dt><dd>This page, its figures (<code>13_report_figs.py</code>) and tables (<code>14_report_tables.py</code>)</dd>
+</dl>
+</div>
+"""
+open("report/index.html", "w").write(html)
+print("wrote report/index.html", len(html))

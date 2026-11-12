@@ -1,0 +1,38 @@
+[env] mrx from /home/user/mrx/mrx/__init__.py  precision float64  batch 262144
+[geom] wout_vmec_fixed_m9_n8_ns401.nc: nfp=2 (theta reversed, the file is left-handed), det DPhi in [7.919e+01, 7.333e+02], symmetry stellarator (map projected, defect 3.6e-15, half-period quadrature)
+[geom] sequence (12, 16, 16) p=2 built in 67 s
+[nullspace] odd k=2 dbc: v^T L v / v^T M v = 6.08e-18
+[nullspace] odd k=1 free: v^T L v / v^T M v = 5.82e-16
+[nullspace] even k=3 dbc: v^T L v / v^T M v = 8.21e-16
+[nullspace] even k=0 free: v^T L v / v^T M v = 8.23e-32
+[setup] wout_vmec_fixed_m9_n8_ns401.nc resolution (12, 16, 16) degree 2 tol=1.0e-08  n2_dbc=3710  operators+nullspaces 76.3s
+[ic] vmec IC in 9.6s: nfp 2, iota_axis 0.3304, iota_edge 0.5777, B_norm_raw 100.1, wall_discarded 0, div 1.297e-16
+
+=== Gauss-Newton penalty=3 tol=1.0e-01 maxiter=300 mass-solve-tol=1e-06  smoothing@4.491e-03  steps<=20 chunk=5 floor-tol=0.0e+00 ===
+[start] it 0  E=5.00000000e-01  |F|=6.3633e-05  resid=6.9129e-05  H=+2.084350e-02  J/B=0.0829  beta_vol=2.463e-02
+  it     5  E_0-E=3.5065e-06  |F|=2.1006e-06  resid=1.486e-05 (chunk mean)  H=+2.084394e-02  dH=+4.358e-07  dt=+1.000e+00  cos min=+0.2943  divB=1.34e-16  beta_vol=2.515e-02  [36s steps +4s other]
+           newton: MINRES it mean 47 max 58, unconverged 0, dt* mean 2.856e+00
+  it    10  E_0-E=3.7381e-06  |F|=1.1651e-06  resid=3.367e-08 (chunk mean)  H=+2.084385e-02  dH=+3.442e-07  dt=+1.000e+00  cos min=+0.6328  divB=1.40e-16  beta_vol=2.512e-02  [56s steps +4s other]
+           newton: MINRES it mean 45 max 49, unconverged 0, dt* mean 7.697e+00
+  it    15  E_0-E=3.8521e-06  |F|=9.6636e-07  resid=1.828e-08 (chunk mean)  H=+2.084376e-02  dH=+2.557e-07  dt=+1.000e+00  cos min=+0.5758  divB=1.45e-16  beta_vol=2.513e-02  [73s steps +5s other]
+           newton: MINRES it mean 39 max 40, unconverged 0, dt* mean 1.234e+01
+  it    20  E_0-E=3.9261e-06  |F|=7.8175e-07  resid=1.236e-08 (chunk mean)  H=+2.084367e-02  dH=+1.694e-07  dt=+1.000e+00  cos min=+0.5770  divB=1.49e-16  beta_vol=2.513e-02  [91s steps +5s other]
+           newton: MINRES it mean 38 max 39, unconverged 0, dt* mean 1.635e+01
+
+--- 20 steps in 90.9s (4.55 s/step), stopped on: steps
+    E_0 5.00000000e-01, E_0 - E 3.9261e-06  (0.0008% of the initial energy removed)
+    residual 6.9129e-05 -> 1.0336e-08  (mean over the last chunk of 5 steps 1.2355e-08, min 1.0336e-08)
+    best state: step 19, residual 1.0336e-08
+    |dE - dE_ls| / E0 (the velocity's gradient part against grad p): median 1.844e-14  max 8.998e-14
+    energy increases on 0/20 steps,  ||div B|| max 1.490e-16,  ||J||/||B|| 8.2928e-02 -> 7.4019e-02
+    helicity +2.084350e-02 -> +2.084367e-02  drift +1.694e-07  relative +8.126e-06
+    beta_vol 2.4631e-02 -> 2.5126e-02
+    CFL cap (C=0.5) bound on 20/20 steps,  dt/dt* min 0.054 mean 0.183,  CFL number taken max 0.104
+    newton: MINRES iterations mean 42.1  max 58  unconverged on 0/20 steps,  dt* mean 9.810e+00
+wrote mrx_vmec_m9_ns401/relax.json and mrx_vmec_m9_ns401/checkpoints/ (best.h5: step 19, residual 1.034e-08)
+[geom] wout_vmec_fixed_m9_n8_ns401.nc: nfp=2 (theta reversed, the file is left-handed), det DPhi in [7.919e+01, 7.333e+02], symmetry stellarator (map projected, defect 3.6e-15, half-period quadrature)
+[geom] sequence (12, 16, 16) p=2 built in 64 s
+[trace] wout_vmec_fixed_m9_n8_ns401.nc (12, 16, 16) p=2: fields ['state_000000', 'best'], nfp=2, symmetry stellarator, planes ['0', '0.25', '0.5'] (300 steps per period)
+[state_000000] B^zeta/|B| in [+8.557e-01, +9.966e-01], trace 20.9s, 0/60 lost, 0 chaotic, drift 1.93e-05, iota 0.3412..0.6127
+[best] B^zeta/|B| in [+8.563e-01, +9.969e-01], trace 16.7s, 0/60 lost, 2 chaotic, drift 4.35e-05, iota 0.3408..0.6122
+  -> /home/user/mrx/reactor_QA_study/c08/mrx_vmec_m9_ns401/trace.npz

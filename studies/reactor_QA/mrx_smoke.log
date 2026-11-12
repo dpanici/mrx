@@ -1,0 +1,16 @@
+desc_fixed_L8_M8_N8_jacobi.h5 desc nfp 2 theta_reversed False
+[geom] desc_fixed_L8_M8_N8_jacobi.h5: nfp=2, det DPhi in [7.797e+01, 7.405e+02], symmetry stellarator (map projected, defect 7.1e-15, half-period quadrature)
+[geom] sequence (8, 12, 12) p=2 built in 59 s
+[nullspace] odd k=2 dbc: v^T L v / v^T M v = 2.20e-18
+[nullspace] odd k=1 free: v^T L v / v^T M v = 2.02e-16
+[nullspace] even k=3 dbc: v^T L v / v^T M v = 7.32e-17
+[nullspace] even k=0 free: v^T L v / v^T M v = 1.73e-33
+  82s  kind desc, nfp 2, iota_axis 0.381, iota_edge 0.6333, B_norm_raw 100.1, wall_discarded 0, div 9.377e-17
+wout_vmec_fixed_m9_n8_ns51.nc vmec nfp 2 theta_reversed True
+[geom] wout_vmec_fixed_m9_n8_ns51.nc: nfp=2 (theta reversed, the file is left-handed), det DPhi in [7.397e+01, 8.047e+02], symmetry stellarator (map projected, defect 5.3e-15, half-period quadrature)
+[geom] sequence (8, 12, 12) p=2 built in 23 s
+[nullspace] odd k=2 dbc: v^T L v / v^T M v = 1.98e-18
+[nullspace] odd k=1 free: v^T L v / v^T M v = 2.89e-16
+[nullspace] even k=3 dbc: v^T L v / v^T M v = 2.37e-15
+[nullspace] even k=0 free: v^T L v / v^T M v = -1.98e-32
+  31s  kind vmec, nfp 2, iota_axis 0.3376, iota_edge 0.6145, B_norm_raw 100.2, wall_discarded 0, div 1.146e-16

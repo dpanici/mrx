@@ -1,0 +1,13 @@
+scale 0.70  9/ 8/101:   11s fsq 1.5e-13  iota_max 0.5856
+scale 0.70  9/ 8/201:   27s fsq 1.7e-13  iota_max 0.5858
+scale 0.70 13/12/201:  117s fsq 1.6e-13  iota_max 0.5861
+scale 0.70 17/16/201:  218s fsq 1.8e-12  iota_max 0.5862
+   (9, 101) vs 17/16/201: rho .2-.8 [mm] [ 6.3 15.6 25.7 51.2] axis 2.2
+   (9, 201) vs 17/16/201: rho .2-.8 [mm] [ 6.3 15.  24.4 48.1] axis 2.1
+   (13, 201) vs 17/16/201: rho .2-.8 [mm] [ 1.6  3.5  7.8 18.3] axis 0.6
+   iota = 4/11 (m=11) at s = [0.01], shear |d iota/ds| = [1.726]
+   iota = 2/5 (m=5) at s = [0.03], shear |d iota/ds| = [1.479]
+   iota = 4/9 (m=9) at s = [0.08], shear |d iota/ds| = [0.855]
+   iota = 1/2 (m=4) at s = [0.19], shear |d iota/ds| = [0.291]
+   iota = 6/11 (m=11) at s = [0.41], shear |d iota/ds| = [0.181]
+   iota = 4/7 (m=7) at s = [0.58 0.92], shear |d iota/ds| = [0.123 0.172]

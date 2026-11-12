@@ -1,0 +1,21 @@
+python -u 05_desc_fixed.py 12 12 12 jacobi desc_fixed_L8_M8_N8_jacobi.h5 > desc_fixed_12_12_12_jacobi.log 2>&1
+python -u 07_mrx_smoke.py 8 12 12 desc_fixed_L8_M8_N8_jacobi.h5 wout_vmec_fixed_m9_n8_ns51.nc > mrx_smoke.log 2>&1
+python -u 05_desc_fixed.py 12 12 12 jacobi desc_fixed_L8_M8_N8_jacobi.h5 > desc_fixed_12_12_12_jacobi_r2.log 2>&1
+bash 08_mrx_run.sh desc_fixed_L8_M8_N8_jacobi.h5 desc_L8_jacobi "12 16 16" 20
+python -u 05_desc_fixed.py 12 12 12 jacobi-dna desc_fixed_L8_M8_N8_jacobi-dna.h5 > desc_fixed_12_12_12_jacobi-dna.log 2>&1
+python -u 03_vmec.py fixed 9 8 201 > vmec_fixed_m9_n8_ns201.log 2>&1
+FTOL=1e-12 python -u 03_vmec.py fixed 17 16 201 > vmec_fixed_m17_n16_ns201.log 2>&1
+bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns51.nc vmec_m9_ns51 "12 16 16" 20
+bash 08_mrx_run.sh desc_fixed_L12_M12_N12_jacobi.h5 desc_L12_jacobi "12 16 16" 20
+bash 08_mrx_run.sh desc_fixed_L8_M8_N8_jacobi-dna.h5 desc_L8_jacobi-dna "12 16 16" 20
+bash 08_mrx_run.sh desc_fixed_L12_M12_N12_jacobi-dna.h5 desc_L12_jacobi-dna "12 16 16" 20
+bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns101.nc vmec_m9_ns101 "12 16 16" 20
+bash 08_mrx_run.sh wout_vmec_fixed_m13_n12_ns101.nc vmec_m13_ns101 "12 16 16" 20
+bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns201.nc vmec_m9_ns201 "12 16 16" 20
+bash 08_mrx_run.sh wout_vmec_fixed_m17_n16_ns201.nc vmec_m17_ns201 "12 16 16" 20
+MAXITER=60 python -u 05_desc_fixed.py 16 16 16 jacobi desc_fixed_L12_M12_N12_jacobi.h5 > desc_fixed_16_16_16_jacobi.log 2>&1
+bash 08_mrx_run.sh wout_vmec_fixed_m9_n8_ns201.nc vmec_m9_ns201 "32 16 16" 20
+bash 08_mrx_run.sh wout_vmec_fixed_m17_n16_ns201.nc vmec_m17_ns201 "32 16 16" 20
+python -u 03_vmec.py fixed 9 8 401 > vmec_fixed_m9_n8_ns401.log 2>&1
+MAXITER=25 python -u 05_desc_fixed.py 16 12 12 jacobi desc_fixed_L12_M12_N12_jacobi.h5 > desc_fixed_16_12_12_jacobi.log 2>&1
+MAXITER=25 python -u 05_desc_fixed.py 20 12 12 jacobi desc_fixed_L16_M12_N12_jacobi.h5 > desc_fixed_20_12_12_jacobi.log 2>&1

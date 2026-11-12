@@ -1,0 +1,45 @@
+grid nodes 2739 innermost rho 0.0363 with 99 nodes
+Building objective: force
+Precomputing transforms
+Building objective: lcfs R
+Building objective: lcfs Z
+Building objective: fixed Psi
+Building objective: fixed pressure
+Building objective: fixed current
+Building objective: fixed sheet current
+Building objective: self_consistency R
+Building objective: self_consistency Z
+Building objective: lambda gauge
+Building objective: axis R self consistency
+Building objective: axis Z self consistency
+Number of parameters: 856
+Number of objectives: 5478
+
+Starting optimization
+Using method: lsq-exact
+Optimization terminated successfully.
+`ftol` condition satisfied. (ftol=1.00e-12)
+         Current function value: 2.341e-06
+         Total delta_x: 2.611e-01
+         Iterations: 135
+         Function evaluations: 169
+         Jacobian evaluations: 136
+==============================================================================================================
+                                                                 Start  -->   End
+Total (sum of squares):                                      2.711e-06  -->   2.341e-06, 
+Maximum absolute Force error:                                1.992e+06  -->   1.957e+06 (N)
+Minimum absolute Force error:                                1.109e+01  -->   7.954e+00 (N)
+Average absolute Force error:                                1.098e+05  -->   9.659e+04 (N)
+Maximum absolute Force error:                                5.371e-04  -->   5.279e-04 (normalized)
+Minimum absolute Force error:                                2.990e-09  -->   2.145e-09 (normalized)
+Average absolute Force error:                                2.960e-05  -->   2.605e-05 (normalized)
+R boundary error:                                            0.000e+00  -->   1.389e-17 (m)
+Z boundary error:                                            0.000e+00  -->   2.776e-17 (m)
+Fixed Psi error:                                             0.000e+00  -->   0.000e+00 (Wb)
+Fixed pressure profile error:                                0.000e+00  -->   0.000e+00 (Pa)
+Fixed current profile error:                                 0.000e+00  -->   0.000e+00 (A)
+Fixed sheet current error:                                   0.000e+00  -->   0.000e+00 (~)
+==============================================================================================================
+
+desc_fixed_L8_M8_N8_jacobi-dna: solve 836s, nfev 169
+{'V': 581.8723659384126, 'beta': 0.025354938353547286, 'aspect': 5.9999996789789805, 'a': 1.7000000000000002, 'R0': 10.199999454264267, 'Bavg': 5.859992312552094, 'W_B': 7973483010.411259, 'W_p': -202167170.1920341, 'force': 0.003655688002546579, 'wall': 850.319503068924} iota [0.41115807 0.62579138]

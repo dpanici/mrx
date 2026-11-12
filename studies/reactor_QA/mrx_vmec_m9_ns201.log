@@ -1,0 +1,53 @@
+[env] mrx from /home/user/mrx/mrx/__init__.py  precision float64  batch 262144
+[geom] wout_vmec_fixed_m9_n8_ns201.nc: nfp=2 (theta reversed, the file is left-handed), det DPhi in [7.067e+01, 1.143e+03], symmetry stellarator (map projected, defect 3.6e-15, half-period quadrature)
+[geom] sequence (32, 16, 16) p=2 built in 86 s
+[nullspace] odd k=2 dbc: v^T L v / v^T M v = 3.31e-16
+[nullspace] odd k=1 free: v^T L v / v^T M v = 1.86e-15
+[nullspace] even k=3 dbc: v^T L v / v^T M v = 1.38e-13
+[nullspace] even k=0 free: v^T L v / v^T M v = 6.58e-32
+[setup] wout_vmec_fixed_m9_n8_ns201.nc resolution (32, 16, 16) degree 2 tol=1.0e-08  n2_dbc=11350  operators+nullspaces 97.5s
+[ic] vmec IC in 10.2s: nfp 2, iota_axis 0.3116, iota_edge 0.6132, B_norm_raw 100.1, wall_discarded 0, div 3.464e-16
+
+=== Gauss-Newton penalty=3 tol=1.0e-01 maxiter=300 mass-solve-tol=1e-06  smoothing@5.673e-04  steps<=20 chunk=5 floor-tol=0.0e+00 ===
+[start] it 0  E=5.00000000e-01  |F|=1.0325e-02  resid=1.4065e-01  H=+2.644804e-02  J/B=1.2443  beta_vol=1.874e-02
+  it     5  E_0-E=6.9099e-05  |F|=3.1677e-04  resid=2.848e-02 (chunk mean)  H=+2.644687e-02  dH=-1.166e-06  dt=+5.994e-01  cos min=+0.1321  divB=3.49e-16  beta_vol=2.326e-02  [169s steps +6s other]
+           newton: MINRES it mean 47 max 82, unconverged 2, dt* mean 1.307e+00
+  it    10  E_0-E=7.9484e-05  |F|=4.4449e-05  resid=5.573e-06 (chunk mean)  H=+2.644597e-02  dH=-2.073e-06  dt=+2.824e-01  cos min=+0.2284  divB=3.49e-16  beta_vol=2.472e-02  [482s steps +7s other]
+           newton: MINRES it mean 103 max 120, unconverged 5, dt* mean 1.487e+00
+  it    15  E_0-E=8.1362e-05  |F|=2.0124e-05  resid=4.560e-07 (chunk mean)  H=+2.644585e-02  dH=-2.185e-06  dt=+1.659e-01  cos min=+0.2832  divB=3.50e-16  beta_vol=2.513e-02  [837s steps +9s other]
+           newton: MINRES it mean 96 max 99, unconverged 5, dt* mean 1.898e+00
+  it    20  E_0-E=8.2343e-05  |F|=1.2341e-05  resid=1.320e-07 (chunk mean)  H=+2.644584e-02  dH=-2.198e-06  dt=+1.526e-01  cos min=+0.3689  divB=3.51e-16  beta_vol=2.539e-02  [1146s steps +10s other]
+           newton: MINRES it mean 92 max 96, unconverged 5, dt* mean 2.469e+00
+
+--- 20 steps in 1146.5s (57.32 s/step), stopped on: steps
+    E_0 5.00000000e-01, E_0 - E 8.2343e-05  (0.0165% of the initial energy removed)
+    residual 1.4065e-01 -> 9.0395e-08  (mean over the last chunk of 5 steps 1.3201e-07, min 9.0395e-08)
+    best state: step 19, residual 9.0395e-08
+    |dE - dE_ls| / E0 (the velocity's gradient part against grad p): median 7.646e-14  max 3.592e-12
+    energy increases on 0/20 steps,  ||div B|| max 3.509e-16,  ||J||/||B|| 1.2443e+00 -> 1.2913e-01
+    helicity +2.644804e-02 -> +2.644584e-02  drift -2.198e-06  relative -8.310e-05
+    beta_vol 1.8745e-02 -> 2.5394e-02
+    CFL cap (C=0.5) bound on 20/20 steps,  dt/dt* min 0.057 mean 0.202,  CFL number taken max 0.500
+    newton: MINRES iterations mean 84.7  max 120  unconverged on 17/20 steps,  dt* mean 1.790e+00
+wrote mrx_vmec_m9_ns201/relax.json and mrx_vmec_m9_ns201/checkpoints/ (best.h5: step 19, residual 9.040e-08)
+[geom] wout_vmec_fixed_m9_n8_ns201.nc: nfp=2 (theta reversed, the file is left-handed), det DPhi in [7.067e+01, 1.143e+03], symmetry stellarator (map projected, defect 3.6e-15, half-period quadrature)
+[geom] sequence (32, 16, 16) p=2 built in 94 s
+[trace] wout_vmec_fixed_m9_n8_ns201.nc (32, 16, 16) p=2: fields ['state_000000', 'best'], nfp=2, symmetry stellarator, planes ['0', '0.25', '0.5'] (300 steps per period)
+Traceback (most recent call last):
+  File "/home/user/mrx/scripts/poincare_trace.py", line 98, in <module>
+    sys.exit(main(tyro.cli(Trace, description=__doc__)))
+             ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/mrx/scripts/poincare_trace.py", line 90, in main
+    sections, _ = trace_archive(seq, fields, lines=cli.lines, periods=cli.periods, planes=planes, seed=cli.seed,
+                  ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                source=source)
+                                ^^^^^^^^^^^^^^
+  File "/home/user/mrx/mrx/diagnostics/poincare.py", line 394, in trace_archive
+    res = poincare(seq, B, lines=lines, periods=periods, planes=planes, seed=seed, name=name)
+  File "/home/user/mrx/mrx/diagnostics/poincare.py", line 339, in poincare
+    bz_over_b = require_zeta_parameterisation(field, dof, name)
+  File "/home/user/mrx/mrx/diagnostics/poincare.py", line 99, in require_zeta_parameterisation
+    raise ValueError(f"{name}: B^zeta/|B| in [{lo:+.3e}, {hi:+.3e}], min |.| {absmin:.3e} at logical "
+                     f"(r, theta, zeta) = {worst}: the toroidal angle is not a valid independent variable "
+                     f"for this field (tol {BZETA_MIN_FRACTION:g})")
+ValueError: state_000000: B^zeta/|B| in [-8.227e-01, +9.956e-01], min |.| 1.277e-01 at logical (r, theta, zeta) = (0.8991, 0.6183, 0.4564): the toroidal angle is not a valid independent variable for this field (tol 0.05)

@@ -1,0 +1,41 @@
+/home/user/venv/lib/python3.13/site-packages/desc/utils.py:563: UserWarning: Frequency spectrum of FFT interpolation will be truncated because the evaluation grid has less resolution than the source grid.
+Got eval_grid.num_theta = 49 < 97 = source_grid.num_theta.
+  warnings.warn(msg, err)
+/home/user/venv/lib/python3.13/site-packages/desc/utils.py:563: UserWarning: Frequency spectrum of FFT interpolation will be truncated because the evaluation grid has less resolution than the source grid.
+Got eval_grid.num_zeta = 49 < 97 = source_grid.num_zeta.
+  warnings.warn(msg, err)
+##########################################################
+Calculating Phi_SV for lambda_regularization = 1.00000e-22
+##########################################################
+chi^2 B = 5.21633e-04
+min Bnormal = 3.83770e-14 (T)
+Max Bnormal = 1.97379e-03 (T)
+Avg Bnormal = 1.74525e-04 (T)
+min Bnormal = 6.32753e-15 (unitless)
+Max Bnormal = 3.25435e-04 (unitless)
+Avg Bnormal = 2.87753e-05 (unitless)
+##########################################################
+Calculating Phi_SV for lambda_regularization = 1.00000e-20
+##########################################################
+chi^2 B = 5.23301e-04
+min Bnormal = 3.84045e-14 (T)
+Max Bnormal = 1.97415e-03 (T)
+Avg Bnormal = 1.74999e-04 (T)
+min Bnormal = 6.33207e-15 (unitless)
+Max Bnormal = 3.25494e-04 (unitless)
+Avg Bnormal = 2.88535e-05 (unitless)
+##########################################################
+Calculating Phi_SV for lambda_regularization = 1.00000e-18
+##########################################################
+chi^2 B = 5.49369e-04
+min Bnormal = 3.83469e-14 (T)
+Max Bnormal = 2.00727e-03 (T)
+Avg Bnormal = 1.83630e-04 (T)
+min Bnormal = 6.32257e-15 (unitless)
+Max Bnormal = 3.30955e-04 (unitless)
+Avg Bnormal = 3.02765e-05 (unitless)
+lambda 1e-22  chi2_B 5.216e-04  chi2_K 4.124e+16
+lambda 1e-20  chi2_B 5.233e-04  chi2_K 4.066e+16
+lambda 1e-18  chi2_B 5.494e-04  chi2_K 4.039e+16
+chosen lambda=1e-20: max|B.n| / <B> = 3.369e-04, rms 5.666e-05   (141s)
+G = -3.2030e+08 A, I = 0.0000e+00 A
