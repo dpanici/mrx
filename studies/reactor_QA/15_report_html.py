@@ -162,7 +162,7 @@ dl.files dt {{ font-family: var(--mono); overflow-wrap: anywhere; }} dl.files dd
     near ι = 3/5, but much less once MRX resolves them (43 → 15 chaotic lines at 16×32×32).</p></div>
   <div class="finding"><b>Free boundary: DESC is converged, VMEC++ is not yet</b>
     <p>DESC (12,12,12) moves the boundary {fd['lcfs']:.0f} mm and cuts the free-boundary residual to {fd['rms_Bn']:.0e} (B·n) and {fd['rms_P']:.0e} (pressure), independent of quadrature.
-    VMEC++ stalls about 5× higher and its boundary drifts {fv['lcfs']:.0f}–{max(r['lcfs'] for r in fvs):.0f} mm, getting closer to DESC's only slowly as ns rises (best: {fv['lcfs_desc']:.0f} mm apart).</p></div>
+    VMEC++ stalls about 5× higher and its boundary drifts {fv['lcfs']:.0f}–{max(r['lcfs'] for r in fvs):.0f} mm, and converges in ns (ns 201 → 401: 6 mm) to a boundary {fv['lcfs_desc']:.0f} mm from DESC's.</p></div>
 </section>
 
 <h2>Setup</h2>
@@ -253,8 +253,9 @@ was 99 % quadrature error at 24×24 (1.5×10⁻⁶ at 48×48), while its final v
 {fd['lcfs']:.0f} mm.</p>
 <p>VMEC++ reaches fsq 10⁻¹¹ but its own pressure-balance measure DELBSQ stays at 4–7×10⁻⁴, and the independent residual agrees: its free boundaries balance worse than
 the fixed boundary they started from. The free-boundary residual is very insensitive to the boundary shape here (DESC moved 39 mm to halve a 10⁻⁴ residual),
-so a 3–5×10⁻⁴ floor leaves the VMEC++ boundary free to drift about 0.1 m. A finer vacuum grid (64×64, vacuum solve every iteration) and ns = 201 lower the floor
-and bring the boundary closer to DESC's ({fv['lcfs_desc']:.0f} mm); mpol 13 does not. Both codes' free boundaries pick up 1–20 mm of m = 5–10 shaping that the fixed
+so a 3–5×10⁻⁴ floor leaves the VMEC++ boundary free to drift about 0.1 m. A finer vacuum grid (64×64, vacuum solve every iteration) and ns = 201 lower the floor to 3×10⁻⁴
+and bring the boundary closer to DESC's; ns = 401 moves the boundary only 6 mm further and leaves the residual at 3×10⁻⁴, so at 9/8 VMEC++ is converged in ns
+at a boundary {fv['lcfs_desc']:.0f} mm from DESC's. mpol 13 (coarse vacuum) does not lower the floor. Both codes' free boundaries pick up 1–20 mm of m = 5–10 shaping that the fixed
 boundary lacks (the coil current potential runs to M = N = 10); VMEC++ keeps 1–3 mm up to m = 12, where DESC's falls off (left panel below).</p>
 <figure><div class="plate"><img src="c08_free_diag.png" alt="Left: boundary Fourier amplitude per poloidal mode number; the fixed boundary decays to 1e-6 by m = 8, both free boundaries keep 1e-3 to 1e-2 up to m = 10, and only VMEC++ stays near 1e-3 at m = 11 and 12. Right: rms free-boundary residuals per run; DESC free is lowest, VMEC++ free runs are 3 to 8 times higher."></div>
 <figcaption class="cap">Left: largest boundary Fourier amplitude per poloidal mode number. Right: rms free-boundary residuals, computed the same way for every run (see the table note).</figcaption></figure>
@@ -264,7 +265,7 @@ boundary lacks (the coil current potential runs to M = N = 10); VMEC++ keeps 1�
   <span class="chip ok">done</span><span>Fixed-boundary ladders for both cases, MRX on every fixed-boundary result, MRX resolution check.</span>
   <span class="chip warn">limit</span><span>DESC beyond (16,16,16) / (20,12,12) does not fit in this container's 15 GB; (20,16,16) was killed for memory.</span>
   <span class="chip ok">done</span><span>DESC free boundary (12,12,12) for the scaled case: 4.8 h, 9.4 GB peak (needs <code>desc.config["avail_mem"]</code> capped at 6 GB).</span>
-  <span class="chip warn">open</span><span>VMEC++ free boundary at 9/8 (ns 51–201) and 13/12 (ns 101) is still {fv['lcfs_desc']:.0f}–{max(r['lcfs_desc'] for r in fvs):.0f} mm from DESC; its residual falls slowly with ns. DESC free beyond (12,12,12) does not fit in 15 GB.</span>
+  <span class="chip warn">open</span><span>VMEC++ free boundary at 9/8 (ns 51–401) and 13/12 (ns 101) is still {fv['lcfs_desc']:.0f}–{max(r['lcfs_desc'] for r in fvs):.0f} mm from DESC; at 9/8 it is converged in ns with a residual floor of 3×10⁻⁴. DESC free beyond (12,12,12) does not fit in 15 GB.</span>
 </div>
 
 <h2>Files</h2>

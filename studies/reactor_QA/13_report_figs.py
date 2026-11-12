@@ -134,8 +134,8 @@ spec = [("fixed boundary", vmec_spec("c08/wout_vmec_fixed_m13_n12_ns101.nc"), "#
         ("DESC free (12,12,12)", desc_spec("c08/desc_free_L12_M12_N12.h5"), BLUE[3], "-", "o"),
         ("VMEC++ free 9/8, ns 101", vmec_spec("c08/wout_vmec_free_m9_n8_ns101.nc"), ORNG[1], "--", "s"),
         ("VMEC++ free 13/12, ns 101", vmec_spec("c08/wout_vmec_free_m13_n12_ns101.nc"), ORNG[3], "--", "s")]
-if os.path.exists("c08/wout_vmec_free_m9_n8_ns201_vac64.nc"):
-    spec.insert(3, ("VMEC++ free 9/8, ns 201, fine vacuum", vmec_spec("c08/wout_vmec_free_m9_n8_ns201_vac64.nc"), ORNG[2], "--", "^"))
+if os.path.exists("c08/wout_vmec_free_m9_n8_ns401_vac64.nc"):
+    spec.insert(3, ("VMEC++ free 9/8, ns 401, fine vacuum", vmec_spec("c08/wout_vmec_free_m9_n8_ns401_vac64.nc"), ORNG[2], "--", "^"))
 fig, ax = plt.subplots(1, 2, figsize=(14, 4.4), constrained_layout=True)
 for lab, (m, a), col, ls, mk in spec:
     ax[0].semilogy(m, np.maximum(a, 1e-9), color=col, ls=ls, marker=mk, ms=4, lw=1.4, label=lab)
@@ -144,7 +144,7 @@ ax[0].set_title("Boundary Fourier spectrum", fontsize=10, loc="left", color=INK)
 V = json.load(open("c08/vc_residuals.json"))
 rows = [(k, lab) for k, lab in [("desc_fixed_L12_M12_N12_jacobi", "DESC fixed 12³"), ("desc_free_L12_M12_N12", "DESC free 12³"),
                                 ("vmec_fixed_m13_n12_ns101", "VMEC++ fixed 13/12"), ("vmec_free_m9_n8_ns101", "VMEC++ free 9/8 ns101"),
-                                ("vmec_free_m9_n8_ns101_vac64", "… fine vacuum"), ("vmec_free_m9_n8_ns201_vac64", "… ns 201, fine vac."),
+                                ("vmec_free_m9_n8_ns101_vac64", "… fine vacuum"), ("vmec_free_m9_n8_ns201_vac64", "… ns 201, fine vac."), ("vmec_free_m9_n8_ns401_vac64", "… ns 401, fine vac."),
                                 ("vmec_free_m13_n12_ns101", "VMEC++ free 13/12")] if k in V]
 x = np.arange(len(rows))
 bn = [V[k]["48"]["rms_Bn"] for k, _ in rows]; pp = [V[k]["48"]["rms_P"] for k, _ in rows]
